@@ -1,14 +1,20 @@
 package hu.lacztam.logistic.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
+@Entity
 public class Section {
 
 	@Id
 	@GeneratedValue
 	private long sectionId;
+	@ManyToOne
 	private Milestone fromMilestone;
+	@ManyToOne
 	private Milestone toMilestone;
 	private int number;
 	

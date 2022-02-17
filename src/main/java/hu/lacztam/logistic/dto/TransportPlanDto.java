@@ -1,23 +1,17 @@
-package hu.lacztam.logistic.model;
+package hu.lacztam.logistic.dto;
 
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
-@Entity
-public class TransportPlan {
+public class TransportPlanDto {
 
-	@Id
-	@GeneratedValue
 	private long transportId;
 	private long expectedIncome;
-	@ManyToMany
-	private List<Section> sections;
+	private List<SectionDto> sectionDtos;
 
-	public TransportPlan() {
+	public TransportPlanDto() {
 	}
 
 	public long getTransportId() {
@@ -28,8 +22,8 @@ public class TransportPlan {
 		return expectedIncome;
 	}
 
-	public List<Section> getSections() {
-		return sections;
+	public List<SectionDto> getSectionDtos() {
+		return sectionDtos;
 	}
 
 	public void setTransportId(long transportId) {
@@ -40,8 +34,8 @@ public class TransportPlan {
 		this.expectedIncome = expectedIncome;
 	}
 
-	public void setSections(List<Section> sections) {
-		this.sections = sections;
+	public void setSectionDtos(List<SectionDto> sectionDtos) {
+		this.sectionDtos = sectionDtos;
 	}
-	
+
 }

@@ -1,16 +1,7 @@
-package hu.lacztam.logistic.model;
+package hu.lacztam.logistic.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+public class AddressDto {
 
-@Entity
-public class Address {
-
-	@Id
-	@GeneratedValue
 	private long addressId;
 	private String ISO;
 	private String city;
@@ -20,7 +11,7 @@ public class Address {
 	private double latitude;
 	private double longitude;
 	
-	public Address() {
+	public AddressDto() {
 	}
 
 	public long getAddressId() {

@@ -1,32 +1,26 @@
-package hu.lacztam.logistic.model;
+package hu.lacztam.logistic.dto;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
-@Entity
-public class Milestone {
+
+public class MilestoneDto {
 	
-	@Id
-	@GeneratedValue
 	private long milestoneId;
-	@ManyToOne
-	private Address address;
+	private AddressDto addressDto;
 	private LocalDateTime plannedTime;
 	
-	public Milestone() {
+	public MilestoneDto() {
 	}
 
 	public long getMilestoneId() {
 		return milestoneId;
 	}
 
-	public Address getAddress() {
-		return address;
+	public AddressDto getAddressDto() {
+		return addressDto;
 	}
 
 	public LocalDateTime getPlannedTime() {
@@ -37,8 +31,8 @@ public class Milestone {
 		this.milestoneId = milestoneId;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setAddressDto(AddressDto addressDto) {
+		this.addressDto = addressDto;
 	}
 
 	public void setPlannedTime(LocalDateTime plannedTime) {
