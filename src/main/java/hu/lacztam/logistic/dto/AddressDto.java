@@ -1,25 +1,47 @@
 package hu.lacztam.logistic.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.springframework.lang.NonNull;
+
+@NotNull
 public class AddressDto {
 
-	private long addressId;
-	private String ISO;
+	private Long addressId;
+	
+	@NotNull
+	@NotEmpty
+	@Size(min=2, max=2)
+	private String countryISO;
+	
+	@NotEmpty
+	@NotNull
 	private String city;
+	
+	@NotEmpty
+	@NotNull
 	private String street;
-	private int zipCode;
-	private int houseNumber;
+	
+	@NotNull
+	private Integer zipCode;
+	
+	@NotNull
+	private Integer houseNumber;
+	
 	private double latitude;
 	private double longitude;
 	
 	public AddressDto() {
 	}
 
-	public long getAddressId() {
+	public Long getAddressId() {
 		return addressId;
 	}
 
-	public String getISO() {
-		return ISO;
+	public String getCountryISO() {
+		return countryISO;
 	}
 
 	public String getCity() {
@@ -30,11 +52,11 @@ public class AddressDto {
 		return street;
 	}
 
-	public int getZipCode() {
+	public Integer getZipCode() {
 		return zipCode;
 	}
 
-	public int getHouseNumber() {
+	public Integer getHouseNumber() {
 		return houseNumber;
 	}
 
@@ -46,12 +68,12 @@ public class AddressDto {
 		return longitude;
 	}
 
-	public void setAddressId(long addressId) {
+	public void setAddressId(Long addressId) {
 		this.addressId = addressId;
 	}
 
-	public void setISO(String iSO) {
-		ISO = iSO;
+	public void setCountryISO(String countryISO) {
+		this.countryISO = countryISO;
 	}
 
 	public void setCity(String city) {
@@ -62,11 +84,11 @@ public class AddressDto {
 		this.street = street;
 	}
 
-	public void setZipCode(int zipCode) {
+	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
 	}
 
-	public void setHouseNumber(int houseNumber) {
+	public void setHouseNumber(Integer houseNumber) {
 		this.houseNumber = houseNumber;
 	}
 

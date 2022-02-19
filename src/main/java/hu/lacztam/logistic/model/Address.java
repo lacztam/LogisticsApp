@@ -11,24 +11,24 @@ public class Address {
 
 	@Id
 	@GeneratedValue
-	private long addressId;
-	private String ISO;
+	private Long addressId;
+	private String countryISO;
 	private String city;
 	private String street;
-	private int zipCode;
-	private int houseNumber;
-	private double latitude;
-	private double longitude;
+	private Integer zipCode;
+	private Integer houseNumber;
+	private Double latitude;
+	private Double longitude;
 	
 	public Address() {
 	}
 
-	public long getAddressId() {
+	public Long getAddressId() {
 		return addressId;
 	}
 
-	public String getISO() {
-		return ISO;
+	public String getCountryISO() {
+		return countryISO;
 	}
 
 	public String getCity() {
@@ -39,28 +39,28 @@ public class Address {
 		return street;
 	}
 
-	public int getZipCode() {
+	public Integer getZipCode() {
 		return zipCode;
 	}
 
-	public int getHouseNumber() {
+	public Integer getHouseNumber() {
 		return houseNumber;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setAddressId(long addressId) {
+	public void setAddressId(Long addressId) {
 		this.addressId = addressId;
 	}
 
-	public void setISO(String iSO) {
-		ISO = iSO;
+	public void setCountryISO(String countryISO) {
+		this.countryISO = countryISO;
 	}
 
 	public void setCity(String city) {
@@ -71,20 +71,20 @@ public class Address {
 		this.street = street;
 	}
 
-	public void setZipCode(int zipCode) {
+	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
 	}
 
-	public void setHouseNumber(int houseNumber) {
+	public void setHouseNumber(Integer houseNumber) {
 		this.houseNumber = houseNumber;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 }
