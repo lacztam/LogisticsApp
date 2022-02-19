@@ -24,4 +24,7 @@ public class MilestoneService {
 		return milestoneRepository.findAll();
 	}
 	
+	public List<Milestone> getAllMilestonesWithAddresses(){
+		return milestoneRepository.getAllMileStonesWithAddress();
+	}
 }

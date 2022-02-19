@@ -44,9 +44,9 @@ public class AddressService {
 	public void deleteAddressById(long id) {
 		Optional<Address> address = addressRepository.findById(id);
 
-		if(address.isPresent()) {
+		if(address.isPresent()) 
 			addressRepository.deleteById(id);
-		}
+		
 	}
 
 	@Transactional
@@ -54,11 +54,11 @@ public class AddressService {
 		
 		Optional<Address> optionalAddress = addressRepository.findById(address.getAddressId());
 		
-		if(optionalAddress.isPresent()) {
+		if(optionalAddress.isPresent()) 
 			addressRepository.save(address);
-		}else {
+		else 
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		}
+		
 	}
 
 

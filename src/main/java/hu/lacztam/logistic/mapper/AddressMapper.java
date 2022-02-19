@@ -13,10 +13,11 @@ import hu.lacztam.logistic.model.Address;
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
 	
+//	@Mapping(target = "milestoneDtos", ignore = true)
+	AddressDto addressToDto(Address address);
+	
 	@Mapping(target = "milestones", ignore = true)
 	Address dtoToAddress(@Valid AddressDto addressDto);
-	
-	AddressDto addressToDto(Address address);
 	
 	List<Address> dtosToAddresses(@Valid List<AddressDto> dtos);
 

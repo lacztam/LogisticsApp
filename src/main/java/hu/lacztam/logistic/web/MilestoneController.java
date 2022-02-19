@@ -22,4 +22,11 @@ public class MilestoneController {
 	public List<MilestoneDto> getAllMilestones(){
 		return milestoneMapper.milestonesToDtos(milestoneService.getAllMilestones());
 	}
+	
+	@GetMapping("/withAddresses")
+	public List<MilestoneDto> getAllMilestonesWithAddresses(){
+		return milestoneMapper.milestonesToDtos(milestoneService.getAllMilestonesWithAddresses());
+	}
+	
+	
 }

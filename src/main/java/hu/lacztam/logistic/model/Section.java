@@ -23,8 +23,8 @@ public class Section {
 	
 	private int number;
 	
-//	@ManyToOne
-//	TransportPlan transportPlan;
+	@ManyToOne
+	TransportPlan transportPlan;
 	
 	public Section() { 
 	}
@@ -61,12 +61,12 @@ public class Section {
 		this.number = number;
 	}
 
-//	public TransportPlan getTransportPlan() {
-//		return transportPlan;
-//	}
-//	
-//	public void setTransportPlan(TransportPlan transportPlan) {
-//		this.transportPlan = transportPlan;
-//	}
+	public TransportPlan getTransportPlan() {
+		return transportPlan;
+	}
+	
+	public void setTransportPlan(TransportPlan transportPlan) {
+		this.transportPlan = transportPlan;
+	}
 
 }

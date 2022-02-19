@@ -21,7 +21,7 @@ public class Milestone {
 	@GeneratedValue
 	private long milestoneId;
 	
-	@OneToOne
+	@ManyToOne
 	private Address address;
 	
 	@ManyToMany

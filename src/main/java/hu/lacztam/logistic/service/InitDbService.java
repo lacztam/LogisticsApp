@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import hu.lacztam.logistic.model.Address;
 import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
-//import hu.lacztam.logistic.model.TransportPlan;
+import hu.lacztam.logistic.model.TransportPlan;
 
 @Service
 public class InitDbService {
@@ -16,7 +16,7 @@ public class InitDbService {
 	@Autowired AddressService addressService;
 	@Autowired MilestoneService milestoneService;
 	@Autowired SectionService sectionService;
-//	@Autowired TransportPlanService transportPlanService;
+	@Autowired TransportPlanService transportPlanService;
 	
 	public void initDb() {
 		Address address1 = new Address();
@@ -94,10 +94,11 @@ public class InitDbService {
 		sectionService.crateSection(section2);
 		
 		
-//		TransportPlan transportPlan = new TransportPlan();
-//		transportPlan.addSection(section1);
-//		transportPlan.addSection(section2);
-//		transportPlanService.crateTransportPlan(transportPlan);
+		TransportPlan transportPlan = new TransportPlan();
+		transportPlan.addSection(section1);
+		transportPlan.addSection(section2);
+		transportPlan.setExpectedIncome(445566);
+		transportPlanService.crateTransportPlan(transportPlan);
 		
 	}
 	

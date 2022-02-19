@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import hu.lacztam.logistic.dto.MilestoneDto;
 
 @Entity
 public class Address {
@@ -23,8 +26,8 @@ public class Address {
 	private Double latitude;
 	private Double longitude;
 
-	@OneToOne
-	Milestone milestones;
+	@OneToMany
+	List<Milestone> milestones;
 	
 	public Address() {
 	}
@@ -93,20 +96,12 @@ public class Address {
 		this.longitude = longitude;
 	}
 
-	public Milestone getMilestones() {
+	public List<Milestone> getMilestones() {
 		return milestones;
 	}
 
-	public void setMilestones(Milestone milestones) {
+	public void setMilestones(List<Milestone> milestones) {
 		this.milestones = milestones;
 	}
-
-//	public List<Milestone> getMilestones() {
-//		return milestones;
-//	}
-//
-//	public void setMilestones(List<Milestone> milestones) {
-//		this.milestones = milestones;
-//	}
 
 }

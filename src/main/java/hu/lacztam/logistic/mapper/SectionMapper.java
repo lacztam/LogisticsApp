@@ -6,17 +6,24 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import hu.lacztam.logistic.dto.MilestoneDto;
 import hu.lacztam.logistic.dto.SectionDto;
+import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
 
 @Mapper(componentModel = "spring")
 public interface SectionMapper {
 
-	@Mapping(source = "sectionId", target = "sectionDtoId")
-	@Mapping(source = "fromMilestone", target = "fromMilestoneDto")
-	@Mapping(source = "toMilestone", target = "toMilestoneDto")
-	@Mapping(target = "toMilestoneDto.addressDto", ignore = true)
-	@Mapping(target = "fromMilestoneDto.addressDto", ignore = true)
+	@Mapping(target = "sectionDtoId", source = "sectionId")
+	@Mapping(target = "fromMilestoneDto", source = "fromMilestone")
+	@Mapping(target = "toMilestoneDto", source = "toMilestone")
+	@Mapping(target = "toMilestoneDto.sectionDtos", ignore = true)
+	@Mapping(target = "fromMilestoneDto.sectionDtos", ignore = true)
+	@Mapping(target = "transportPlanDto", ignore = true)
+	@Mapping(target = "toMilestoneDto.addressDto", source = "toMilestone.address")
+	@Mapping(target = "fromMilestoneDto.addressDto", source = "fromMilestone.address")
+	@Mapping(target = "toMilestoneDto.addressDto.milestoneDtos", ignore = true)
+	@Mapping(target = "fromMilestoneDto.addressDto.milestoneDtos", ignore = true)
 	SectionDto sectionToDto(Section section);
 
 	@InheritInverseConfiguration
@@ -26,6 +33,10 @@ public interface SectionMapper {
 	
 	List<SectionDto> sectionsToDtos(List<Section> sections);
 	
+	
+	@Mapping(target = "addressDto", source = "address")
+	@Mapping(target = "sectionDtos", ignore = true)
+	MilestoneDto milestoneToDto(Milestone milestone);
 }
 
 

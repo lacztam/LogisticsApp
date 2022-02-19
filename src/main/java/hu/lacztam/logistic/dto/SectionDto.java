@@ -1,14 +1,21 @@
 package hu.lacztam.logistic.dto;
 
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+
 
 @NotNull
 public class SectionDto {
 
 	private long sectionDtoId;
+	@ManyToOne
 	private MilestoneDto fromMilestoneDto;
+	@ManyToOne
 	private MilestoneDto toMilestoneDto;
 	private int number;
+	
+	@ManyToOne
+	TransportPlanDto transportPlanDto;
 	
 	public SectionDto() {
 	}
@@ -43,6 +50,14 @@ public class SectionDto {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public TransportPlanDto getTransportPlanDto() {
+		return transportPlanDto;
+	}
+
+	public void setTransportPlanDto(TransportPlanDto transportPlanDto) {
+		this.transportPlanDto = transportPlanDto;
 	}
 
 }
