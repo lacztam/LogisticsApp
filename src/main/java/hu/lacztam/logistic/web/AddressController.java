@@ -45,7 +45,7 @@ public class AddressController {
 			return ResponseEntity.badRequest().build();
 		}
 		
-		Address address = addressService.addAddress(addressMapper.dtoToAddress(addressDto));
+		Address address = addressService.createAddress(addressMapper.dtoToAddress(addressDto));
 		
 		return ResponseEntity.ok(address);
 	}
@@ -77,7 +77,7 @@ public class AddressController {
 	}
 	
 	@PostMapping("/search")
-	public List<AddressDto> searchFilteredAddresses(
+	public List<AddressDto> searchFilteredAddressesWithPageable(
 			@Valid AddressFilterDto addressFilterDto, 
 			@PageableDefault(size = 1) Pageable pageable) {
 		
@@ -86,17 +86,17 @@ public class AddressController {
 		return addressMapper.addressesToDtos(addresses.getContent());
 	}
 	
-//	@PostMapping("/search")
-//	public List<AddressDto> searchDto(
-//			@Valid AddressFilterDto addressFilterDto, 
-//			@RequestParam(required = false) Integer page,
-//			@RequestParam(required = false) Integer size,
-//			@RequestParam(required = false) String sort,
-//			@RequestParam(required = false) String order) {
-//		
-//		Page<Address> addresses = addressService.searchAddresses2(addressFilterDto, page, size, sort, order);
-//			
-//		return addressMapper.addressesToDtos(addresses.getContent());
-//	}
+	@PostMapping("/searchWithParam")
+	public List<AddressDto> searchFilteredAddressesWithParameters(
+			@Valid AddressFilterDto addressFilterDto, 
+			@RequestParam(required = false) Integer page,
+			@RequestParam(required = false) Integer size,
+			@RequestParam(required = false) String sort,
+			@RequestParam(required = false) String order) {
+		
+		Page<Address> addresses = addressService.searchAddressesWithFields(addressFilterDto, page, size, sort, order);
+			
+		return addressMapper.addressesToDtos(addresses.getContent());
+	}
 	
 }

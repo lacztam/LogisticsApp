@@ -1,6 +1,8 @@
 package hu.lacztam.logistic.dto;
 
+import javax.validation.constraints.NotNull;
 
+@NotNull
 public class SectionDto {
 
 	private long sectionDtoId;

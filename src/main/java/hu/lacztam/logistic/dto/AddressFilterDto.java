@@ -1,9 +1,11 @@
 package hu.lacztam.logistic.dto;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.NumberFormat;
 
+@NotNull
 public class AddressFilterDto {
 	
 	@Size(min=2, max=2)

@@ -3,7 +3,9 @@ package hu.lacztam.logistic.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -12,13 +14,19 @@ public class Section {
 	@Id
 	@GeneratedValue
 	private long sectionId;
+	
 	@ManyToOne
 	private Milestone fromMilestone;
+	
 	@ManyToOne
 	private Milestone toMilestone;
+	
 	private int number;
 	
-	public Section() {
+//	@ManyToOne
+//	TransportPlan transportPlan;
+	
+	public Section() { 
 	}
 
 	public long getSectionId() {
@@ -52,5 +60,13 @@ public class Section {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	
+
+//	public TransportPlan getTransportPlan() {
+//		return transportPlan;
+//	}
+//	
+//	public void setTransportPlan(TransportPlan transportPlan) {
+//		this.transportPlan = transportPlan;
+//	}
+
 }

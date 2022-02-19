@@ -1,8 +1,11 @@
 package hu.lacztam.logistic.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -19,6 +22,9 @@ public class Address {
 	private Integer houseNumber;
 	private Double latitude;
 	private Double longitude;
+
+	@OneToOne
+	Milestone milestones;
 	
 	public Address() {
 	}
@@ -86,5 +92,21 @@ public class Address {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
+
+	public Milestone getMilestones() {
+		return milestones;
+	}
+
+	public void setMilestones(Milestone milestones) {
+		this.milestones = milestones;
+	}
+
+//	public List<Milestone> getMilestones() {
+//		return milestones;
+//	}
+//
+//	public void setMilestones(List<Milestone> milestones) {
+//		this.milestones = milestones;
+//	}
 
 }

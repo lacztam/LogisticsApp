@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.model.Address;
@@ -12,6 +13,7 @@ import hu.lacztam.logistic.model.Address;
 @Mapper(componentModel = "spring")
 public interface AddressMapper {
 	
+	@Mapping(target = "milestones", ignore = true)
 	Address dtoToAddress(@Valid AddressDto addressDto);
 	
 	AddressDto addressToDto(Address address);

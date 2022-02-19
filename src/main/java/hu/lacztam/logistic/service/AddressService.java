@@ -31,7 +31,7 @@ public class AddressService {
 	}
 	
 	@Transactional
-	public Address addAddress(Address address) {
+	public Address createAddress(Address address) {
 		return addressRepository.save(address);
 	}
 	
@@ -99,41 +99,46 @@ public class AddressService {
 		return addresses;
 	}
 	
-//	public Page<Address> searchAddresses2(
-//			AddressFilterDto addressFilterDto, Integer page, Integer size, String sortValue, String order){
-//		
-//		Pageable paging = null;
-//		Sort sort = Sort.by("addressId").ascending();
-//		
-//		if(page == null)
-//			page = 0;
-//		if(StringUtils.hasText(sortValue))
-//			sort = Sort.by(sortValue);
-//		if(order != null && (order.equals("descending") || order.equals("desc"))) 
-//			sort = sort.descending();
-//		if(size == null)
-//			paging = Pageable.unpaged();
-//		else
-//			paging = PageRequest.of(page, size, sort);
-//		
-//		String countryISO = addressFilterDto.getCountryISO();
-//		String city=addressFilterDto.getCity();
-//		String street = addressFilterDto.getStreet();
-//		Integer zipCode = addressFilterDto.getZipCode();
-//		
-//		Specification<Address> spec = Specification.where(null);
-//		
-//		if(StringUtils.hasText(countryISO))
-//			spec = spec.and(AddressSpecification.hasCity(countryISO));
-//		if(StringUtils.hasText(city))
-//			spec = spec.and(AddressSpecification.hasCity(city));
-//		if(StringUtils.hasText(street)) 
-//			spec = spec.and(AddressSpecification.hasStreet(street));
-//		if(zipCode != null && zipCode > 0)
-//			spec = spec.and(AddressSpecification.hasZipCode(zipCode));
-//		
-//		Page<Address> addresses = addressRepository.findAll(spec, paging);
-//		
-//		return addresses;
-//	}
+	public Page<Address> searchAddressesWithFields(
+			AddressFilterDto addressFilterDto, 
+			Integer page, Integer size, String sortValue, String order){
+		
+		Pageable paging = null;
+		Sort sort = Sort.by("addressId").ascending();
+		
+		if(page == null)
+			page = 0;
+		
+		if(StringUtils.hasText(sortValue))
+			sort = Sort.by(sortValue);
+		
+		boolean descOrder = order.equals("descending") || order.equals("desc");
+		if(order != null && descOrder) 
+			sort = sort.descending();
+		
+		if(size == null)
+			paging = Pageable.unpaged();
+		else
+			paging = PageRequest.of(page, size, sort);
+		
+		String countryISO = addressFilterDto.getCountryISO();
+		String city=addressFilterDto.getCity();
+		String street = addressFilterDto.getStreet();
+		Integer zipCode = addressFilterDto.getZipCode();
+		
+		Specification<Address> spec = Specification.where(null);
+		
+		if(StringUtils.hasText(countryISO))
+			spec = spec.and(AddressSpecification.hasCity(countryISO));
+		if(StringUtils.hasText(city))
+			spec = spec.and(AddressSpecification.hasCity(city));
+		if(StringUtils.hasText(street)) 
+			spec = spec.and(AddressSpecification.hasStreet(street));
+		if(zipCode != null && zipCode > 0)
+			spec = spec.and(AddressSpecification.hasZipCode(zipCode));
+		
+		Page<Address> addresses = addressRepository.findAll(spec, paging);
+		
+		return addresses;
+	}
 }

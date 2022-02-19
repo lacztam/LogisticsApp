@@ -1,5 +1,7 @@
 package hu.lacztam.logistic.mapper;
 
+import java.util.List;
+
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +22,10 @@ public interface SectionMapper {
 	@InheritInverseConfiguration
 	Section dtoToSection(SectionDto dto);
 
+	List<Section> dtosToSections(List<SectionDto> sectionDto);
+	
+	List<SectionDto> sectionsToDtos(List<Section> sections);
+	
 }
 
 

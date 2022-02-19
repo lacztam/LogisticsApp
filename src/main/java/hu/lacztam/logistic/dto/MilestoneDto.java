@@ -4,8 +4,9 @@ import java.time.LocalDateTime;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
-
+@NotNull
 public class MilestoneDto {
 	
 	private long milestoneId;
