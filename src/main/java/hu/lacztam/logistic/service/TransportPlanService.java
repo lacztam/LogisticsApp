@@ -28,19 +28,22 @@ public class TransportPlanService {
 		return transportRepository.save(transportPlan);
 	}
 
+	@Transactional
 	public List<TransportPlan> findAll(){
 		return transportRepository.findAll();
 	}
 	
+	@Transactional
 	public List<TransportPlan> getAllTransportPlansWithOutSections(){
 		return transportRepository.getEveryTransportPlans();
 	}
 	
+	@Transactional
 	public List<TransportPlan> getAllTransportPlansWithSections(){
 		return transportRepository.getEveryTransportWithSections();
 	}
 	
-	
+	@Transactional
 	public TransportPlan getById(long id) {
 		return transportRepository.getTransByIdJustBody(id);
 	}

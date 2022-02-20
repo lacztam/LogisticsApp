@@ -6,8 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +20,7 @@ public class TransportPlanDto {
 	private long expectedIncome;
 	private long finalIncome;
 	
-	@OneToMany(mappedBy = "transportPlanDto")
+	@OneToMany
 	private List<SectionDto> sectionDtos;
 
 	private LocalDateTime expectedArrivalTime;

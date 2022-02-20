@@ -36,14 +36,20 @@ public class TransportController {
 	
 	@GetMapping
 	public List<TransportPlanDto> findAll(){
-		return transportMapper.transportPlansToDtos(transportPlanService.findAll());
+		List<TransportPlan> everyTransports = transportPlanService.findAll();
+		System.out.println("Every transports:" + everyTransports.get(0).getSections().toString());
+		return transportMapper.transportPlansToDtos(everyTransports);
 	}
 	
 	@GetMapping("/withoutSections")
 	public List<TransportPlanDto> getAllTransportPlans(){
-		
+		System.out.println("withoutSections called.");
+		List<TransportPlan> transports = transportPlanService.getAllTransportPlansWithOutSections();
+		if(transports.isEmpty())
+			System.out.println("transport list is empty");
+		System.out.println("transport.toString():" + transports.toString());
 		List<TransportPlanDto> transportPlans = transportMapper.transportPlansToDtos(
-				transportPlanService.getAllTransportPlansWithOutSections()
+				transports
 				);
 	
 		return transportPlans;
@@ -52,9 +58,11 @@ public class TransportController {
 	@GetMapping("/withSections")
 	public List<TransportPlanDto> getAllTransportPlansWithSections(){
 		
-		List<TransportPlanDto> transportPlans = transportMapper.transportPlansToDtos(
-				transportPlanService.getAllTransportPlansWithSections()
-				);
+		List<TransportPlan> transports 
+			= transportPlanService.getAllTransportPlansWithSections();
+
+		List<TransportPlanDto> transportPlans 
+			= transportMapper.transportPlansToDtos(transports);
 	
 		return transportPlans;
 	}

@@ -104,4 +104,10 @@ public class Address {
 		this.milestones = milestones;
 	}
 
+	@Override
+	public String toString() {
+		return "\nAddress\n[addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
+				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", milestones=" + milestones + "]\n";
+	}
 }

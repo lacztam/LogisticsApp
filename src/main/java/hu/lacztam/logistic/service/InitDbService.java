@@ -95,11 +95,12 @@ public class InitDbService {
 		
 		
 		TransportPlan transportPlan = new TransportPlan();
-		transportPlan.addSection(section1);
-		transportPlan.addSection(section2);
+//		transportPlan.addSection(section1);
+		transportPlan.addSection(sectionService.sectionById(9));
+//		transportPlan.addSection(section2);
+		transportPlan.addSection(sectionService.sectionById(10));
 		transportPlan.setExpectedIncome(445566);
 		transportPlanService.crateTransportPlan(transportPlan);
 		
 	}
-	
 }

@@ -23,7 +23,12 @@ public interface TransportPlanRepository extends JpaRepository<TransportPlan, Lo
 	TransportPlan getTransByIdJustBody(long id);
 
 //	@Query("SELECT t FROM TransportPlan t JOIN FETCH t.sections")
-	@EntityGraph(attributePaths = { "sections", "sections.fromMilestone", "sections.toMilestone" })
-	@Query("SELECT t FROM TransportPlan t")
+//	@EntityGraph(attributePaths = 
+//		{ "sections", "sections.fromMilestone", "sections.toMilestone" })
+
+	@EntityGraph(attributePaths = 
+		{ "sections", "sections.fromMilestone", "sections.toMilestone",
+				"sections.fromMilestone.address", "sections.toMilestone.address"})
+	@Query("SELECT t FROM TransportPlan t JOIN FETCH t.sections")
 	List<TransportPlan> getEveryTransportWithSections();
 }

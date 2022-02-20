@@ -6,8 +6,10 @@ import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import hu.lacztam.logistic.dto.MilestoneDto;
 import hu.lacztam.logistic.dto.SectionDto;
 import hu.lacztam.logistic.dto.TransportPlanDto;
+import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
 
@@ -18,6 +20,7 @@ public interface TransportMapper {
 	@Mapping(target = "expectedArrivalTime", ignore = true)
 	@Mapping(target = "delayedArrivalTime", ignore = true)
 	@Mapping(target = "sectionDtos.transportPlanDto", ignore = true)
+//	@Mapping(target = "sectionDtos.fromMilestoneDto", source = "sections.fromMilestone")
 	@Mapping(target = "sectionDtos", source = "sections")
 	TransportPlanDto transportToDto(TransportPlan plan);
 	
@@ -42,8 +45,12 @@ public interface TransportMapper {
 
 	@InheritInverseConfiguration
 	Section dtoToSection(SectionDto dto);
-
-	List<Section> dtosToSections(List<SectionDto> sectionDto);
 	
-	List<SectionDto> sectionsToDtos(List<Section> sections);
+	@Mapping(target = "addressDto", source = "address")
+	@Mapping(target = "sectionDtos", ignore = true)
+	MilestoneDto milestoneToDto(Milestone milestone);
+	
+	@Mapping(target = "address", ignore = true)
+	@Mapping(target = "sections", ignore = true)
+	Milestone dtoTomilestone(MilestoneDto dto);
 }

@@ -20,7 +20,18 @@ public class SectionService {
 		return sectionRepository.save(section1);
 	}
 	
+	@Transactional
 	public List<Section> getAllSections(){
 		return sectionRepository.findAll();
+	}
+	
+	@Transactional
+	public List<Section> getEverySectionWithMilestones(){
+		return sectionRepository.getEverySectionsWithMilestones();
+	}
+	
+	@Transactional
+	public Section sectionById(long id) {
+		return sectionRepository.sectionById(id);
 	}
 }

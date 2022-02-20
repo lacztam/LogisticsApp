@@ -3,9 +3,12 @@ package hu.lacztam.logistic.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -16,7 +19,7 @@ public class TransportPlan {
 	private long transportId;
 	private long expectedIncome;
 	
-	@OneToMany(mappedBy = "transportPlan")
+	@OneToMany
 	private List<Section> sections;
 
 	public TransportPlan() {
@@ -51,5 +54,11 @@ public class TransportPlan {
 
 	public void setSections(List<Section> sections) {
 		this.sections = sections;
+	}
+
+	@Override
+	public String toString() {
+		return "TransportPlan [transportId=" + transportId + ", expectedIncome=" + expectedIncome + ", sections="
+				+ sections + "]";
 	}
 }

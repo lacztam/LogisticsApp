@@ -35,6 +35,7 @@ public class AddressService {
 		return addressRepository.save(address);
 	}
 	
+	@Transactional
 	public Address findById(long id) {
 		return addressRepository.findById(id)
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -61,7 +62,7 @@ public class AddressService {
 		
 	}
 
-
+	@Transactional
 	public Page<Address> searchAddresses(@Valid AddressFilterDto addressFilterDto, Pageable paging) {
 		
 		Integer page = 0; 
@@ -99,6 +100,7 @@ public class AddressService {
 		return addresses;
 	}
 	
+	@Transactional
 	public Page<Address> searchAddressesWithFields(
 			AddressFilterDto addressFilterDto, 
 			Integer page, Integer size, String sortValue, String order){

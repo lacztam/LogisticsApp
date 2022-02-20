@@ -20,10 +20,12 @@ public class MilestoneService {
 		return milestoneRepository.save(milestone1);
 	}
 	
+	@Transactional
 	public List<Milestone> getAllMilestones(){
 		return milestoneRepository.findAll();
 	}
 	
+	@Transactional
 	public List<Milestone> getAllMilestonesWithAddresses(){
 		return milestoneRepository.getAllMileStonesWithAddress();
 	}

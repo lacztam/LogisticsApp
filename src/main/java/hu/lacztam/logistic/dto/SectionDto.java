@@ -1,5 +1,6 @@
 package hu.lacztam.logistic.dto;
 
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
