@@ -35,4 +35,9 @@ public class SectionController {
 		Section sectionById = sectionService.sectionById(id);
 		return sectionMapper.sectionToDto(sectionById);
 	}
+	
+//	@GetMapping("/{milestoneId}/getSectionByMilestoneId/")
+//	public SectionDto getSectionByMilestoneId(@PathVariable long milestoneId) {
+//		return sectionMapper.sectionToDto(sectionService.sectionByMilestoneId(milestoneId));
+//	}
 }

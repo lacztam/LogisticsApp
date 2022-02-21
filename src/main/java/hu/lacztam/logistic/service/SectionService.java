@@ -34,4 +34,29 @@ public class SectionService {
 	public Section sectionById(long id) {
 		return sectionRepository.sectionById(id);
 	}
+	
+//	@Transactional
+//	public Section sectionByMilestoneId(long id) {
+//		return sectionRepository.findByMilestoneId(id);
+//	}
+	
+	@Transactional
+	public Section sectionByFromMilestoneId(long milestoneId) {
+		return sectionRepository.sectionByFromMilestone(milestoneId);
+	}
+	
+	@Transactional
+	public Section sectionByTomilestoneId(long milestoneId) {
+		return sectionRepository.sectionByToMilestone(milestoneId);
+	}
+	
+	@Transactional
+	public Section saveSection(long sectionId) {
+		return sectionRepository.save(sectionById(sectionId));
+	}
+	
+	@Transactional
+	public Section sectionBySectionNumber(int sectionNumber) {
+		return sectionRepository.sectionByNumber(sectionNumber);
+	}
 }

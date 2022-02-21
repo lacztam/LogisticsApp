@@ -64,4 +64,8 @@ public class Milestone {
 		this.sections = sections;
 	}
 	
+	public void addDelay(long minutes) {
+		this.plannedTime = this.plannedTime.plusMinutes(minutes);
+	}
+	
 }

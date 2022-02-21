@@ -16,19 +16,20 @@ import hu.lacztam.logistic.model.TransportPlan;
 
 public interface TransportPlanRepository extends JpaRepository<TransportPlan, Long>, JpaSpecificationExecutor<TransportPlan> {
 
-	@Query("SELECT t FROM TransportPlan t")
-	List<TransportPlan> getEveryTransportPlans();
-	
 	@Query("SELECT t FROM TransportPlan t WHERE t.transportId = :id")
 	TransportPlan getTransByIdJustBody(long id);
-
-//	@Query("SELECT t FROM TransportPlan t JOIN FETCH t.sections")
-//	@EntityGraph(attributePaths = 
-//		{ "sections", "sections.fromMilestone", "sections.toMilestone" })
 
 	@EntityGraph(attributePaths = 
 		{ "sections", "sections.fromMilestone", "sections.toMilestone",
 				"sections.fromMilestone.address", "sections.toMilestone.address"})
 	@Query("SELECT t FROM TransportPlan t JOIN FETCH t.sections")
 	List<TransportPlan> getEveryTransportWithSections();
+	
+	@EntityGraph(attributePaths = 
+		{ "sections", "sections.fromMilestone", "sections.toMilestone",
+			"sections.fromMilestone.address", "sections.toMilestone.address"})
+	@Query(		"SELECT t FROM TransportPlan t "
+			+ 	"JOIN FETCH t.sections "
+			+ 	"WHERE t.transportId = :id")
+	TransportPlan getTransportWithSectionsById(long id);
 }
