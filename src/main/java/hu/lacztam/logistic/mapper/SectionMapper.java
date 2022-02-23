@@ -17,8 +17,8 @@ public interface SectionMapper {
 	@Mapping(target = "sectionDtoId", source = "sectionId")
 	@Mapping(target = "fromMilestoneDto", source = "fromMilestone")
 	@Mapping(target = "toMilestoneDto", source = "toMilestone")
-	@Mapping(target = "toMilestoneDto.sectionDtos", ignore = true)
-	@Mapping(target = "fromMilestoneDto.sectionDtos", ignore = true)
+	@Mapping(target = "toMilestoneDto.sectionDto", ignore = true)
+	@Mapping(target = "fromMilestoneDto.sectionDto", ignore = true)
 	@Mapping(target = "transportPlanDto", ignore = true)
 	@Mapping(target = "toMilestoneDto.addressDto", source = "toMilestone.address")
 	@Mapping(target = "fromMilestoneDto.addressDto", source = "fromMilestone.address")
@@ -35,7 +35,7 @@ public interface SectionMapper {
 	
 	
 	@Mapping(target = "addressDto", source = "address")
-	@Mapping(target = "sectionDtos", ignore = true)
+	@Mapping(target = "sectionDto", ignore = true)
 	MilestoneDto milestoneToDto(Milestone milestone);
 }
 

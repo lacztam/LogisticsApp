@@ -1,11 +1,14 @@
 package hu.lacztam.logistic.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.repository.SectionRepository;
@@ -42,12 +45,20 @@ public class SectionService {
 	
 	@Transactional
 	public Section sectionByFromMilestoneId(long milestoneId) {
-		return sectionRepository.sectionByFromMilestone(milestoneId);
+		Optional<Section> section = sectionRepository.sectionByFromMilestone(milestoneId);
+		if(section.isPresent())
+			return section.get();
+		else
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	@Transactional
-	public Section sectionByTomilestoneId(long milestoneId) {
-		return sectionRepository.sectionByToMilestone(milestoneId);
+	public Section sectionByToMilestoneId(long milestoneId) {
+		Optional<Section> section =  sectionRepository.sectionByToMilestone(milestoneId);
+		if(section.isPresent())
+			return section.get();
+		else
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 	
 	@Transactional
@@ -57,6 +68,10 @@ public class SectionService {
 	
 	@Transactional
 	public Section sectionBySectionNumber(int sectionNumber) {
-		return sectionRepository.sectionByNumber(sectionNumber);
+		Optional<Section> section = sectionRepository.sectionByNumber(sectionNumber);
+		if(section.isPresent())
+			return section.get();
+		else
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 }

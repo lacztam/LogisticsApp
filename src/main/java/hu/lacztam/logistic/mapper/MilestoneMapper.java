@@ -16,11 +16,11 @@ import hu.lacztam.logistic.model.Milestone;
 public interface MilestoneMapper {
 
 	@Mapping(target = "addressDto", source = "address")
-	@Mapping(target = "sectionDtos", ignore = true)
+	@Mapping(target = "sectionDto", ignore = true)
 	MilestoneDto milestoneToDto(Milestone milestone);
 	
 	@Mapping(target = "address", ignore = true)
-	@Mapping(target = "sections", ignore = true)
+	@Mapping(target = "section", ignore = true)
 	Milestone dtoTomilestone(MilestoneDto dto);
 	
 //	@Named("noaddress")

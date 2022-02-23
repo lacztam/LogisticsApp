@@ -24,12 +24,16 @@ public class Milestone {
 	@ManyToOne
 	private Address address;
 	
-	@ManyToMany
-	Set<Section> sections = new HashSet<>();
+	@ManyToOne(targetEntity = Section.class)
+	Section section;
 	
 	private LocalDateTime plannedTime;
 
 	public Milestone() {
+	}
+
+	public void addDelay(long minutes) {
+		this.plannedTime = this.plannedTime.plusMinutes(minutes);
 	}
 
 	public long getMilestoneId() {
@@ -38,6 +42,10 @@ public class Milestone {
 
 	public Address getAddress() {
 		return address;
+	}
+
+	public Section getSection() {
+		return section;
 	}
 
 	public LocalDateTime getPlannedTime() {
@@ -52,20 +60,12 @@ public class Milestone {
 		this.address = address;
 	}
 
+	public void setSection(Section section) {
+		this.section = section;
+	}
+
 	public void setPlannedTime(LocalDateTime plannedTime) {
 		this.plannedTime = plannedTime;
-	}
-
-	public Set<Section> getSections() {
-		return sections;
-	}
-
-	public void setSections(Set<Section> sections) {
-		this.sections = sections;
-	}
-	
-	public void addDelay(long minutes) {
-		this.plannedTime = this.plannedTime.plusMinutes(minutes);
 	}
 	
 }

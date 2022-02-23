@@ -19,8 +19,8 @@ public class MilestoneDto {
 	private AddressDto addressDto;
 	private LocalDateTime plannedTime;
 	
-	@ManyToMany
-	Set<SectionDto> sectionDtos = new HashSet<>();
+	@ManyToOne
+	SectionDto sectionDto;
 	
 	public MilestoneDto() {
 	}
@@ -37,6 +37,10 @@ public class MilestoneDto {
 		return plannedTime;
 	}
 
+	public SectionDto getSectionDto() {
+		return sectionDto;
+	}
+
 	public void setMilestoneId(long milestoneId) {
 		this.milestoneId = milestoneId;
 	}
@@ -49,12 +53,13 @@ public class MilestoneDto {
 		this.plannedTime = plannedTime;
 	}
 
-	public Set<SectionDto> getSectionDtos() {
-		return sectionDtos;
+	public void setSectionDto(SectionDto sectionDto) {
+		this.sectionDto = sectionDto;
 	}
 
-	public void setSectionDtos(Set<SectionDto> sectionDtos) {
-		this.sectionDtos = sectionDtos;
+	@Override
+	public String toString() {
+		return "MilestoneDto [milestoneId=" + milestoneId + ", addressDto=" + addressDto + ", plannedTime="
+				+ plannedTime + ", sectionDto=" + sectionDto + "]";
 	}
-	
 }

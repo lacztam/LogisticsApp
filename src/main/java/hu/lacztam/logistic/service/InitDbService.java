@@ -67,17 +67,17 @@ public class InitDbService {
 		
 		Milestone milestone2 = new Milestone();
 		milestone2.setAddress(address2);
-		milestone2.setPlannedTime(milestone1.getPlannedTime().plusDays(1));
+		milestone2.setPlannedTime(milestone1.getPlannedTime().plusDays(1).plusHours(2).plusMinutes(23));
 		milestoneService.createMilestone(milestone2);
 	
 		Milestone milestone3 = new Milestone();
 		milestone3.setAddress(address3);
-		milestone3.setPlannedTime(milestone2.getPlannedTime().plusDays(1));
+		milestone3.setPlannedTime(milestone2.getPlannedTime().plusDays(1).plusHours(3).plusMinutes(42));
 		milestoneService.createMilestone(milestone3);
 		
 		Milestone milestone4 = new Milestone();
 		milestone4.setAddress(address4);
-		milestone4.setPlannedTime(milestone3.getPlannedTime().plusDays(1));
+		milestone4.setPlannedTime(milestone3.getPlannedTime().plusDays(1).plusHours(4).plusMinutes(18));
 		milestoneService.createMilestone(milestone4);
 		
 		
@@ -95,12 +95,9 @@ public class InitDbService {
 		
 		
 		TransportPlan transportPlan = new TransportPlan();
-//		transportPlan.addSection(section1);
 		transportPlan.addSection(sectionService.sectionById(9));
-//		transportPlan.addSection(section2);
 		transportPlan.addSection(sectionService.sectionById(10));
-		transportPlan.setExpectedIncome(445566);
+		transportPlan.setExpectedIncome(100000);
 		transportPlanService.crateTransportPlan(transportPlan);
-		
 	}
 }

@@ -22,4 +22,5 @@ public interface AddressMapper {
 	List<Address> dtosToAddresses(@Valid List<AddressDto> dtos);
 
 	List<AddressDto> addressesToDtos(List<Address> addresses);
+
 }

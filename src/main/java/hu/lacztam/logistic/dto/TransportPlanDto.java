@@ -13,8 +13,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import hu.lacztam.logistic.config.ConfigProperties;
+
 @NotNull
 public class TransportPlanDto {
+	
+	@Autowired ConfigProperties config;
 
 	private long transportId;
 	private long expectedIncome;
@@ -28,6 +34,22 @@ public class TransportPlanDto {
 	
 	
 	public TransportPlanDto() {
+		this.delayedArrivalTime = this.expectedArrivalTime;
+		this.finalIncome = this.expectedIncome;
+	}
+	
+	public void addDelay(long minutes) {
+		this.delayedArrivalTime.plusMinutes(minutes);
+		calculateFinalIncome(minutes);
+	}
+	
+	private void calculateFinalIncome(long minutes) {
+		if(minutes >= 30) 
+			this.finalIncome = (int)((1.0f - config.getPenaltyPercent1()) * this.finalIncome);
+		else if(minutes >= 60) 
+			this.finalIncome = (int)((1.0f - config.getPenaltyPercent2()) * this.finalIncome);
+		else if(minutes >= 120) 
+			this.finalIncome = (int)((1.0f - config.getPenaltyPercent3()) * this.finalIncome);
 	}
 
 	public long getTransportId() {
@@ -60,6 +82,7 @@ public class TransportPlanDto {
 
 	public void setExpectedIncome(long expectedIncome) {
 		this.expectedIncome = expectedIncome;
+		this.finalIncome = expectedIncome;
 	}
 
 	public void setFinalIncome(long finalIncome) {
@@ -72,6 +95,7 @@ public class TransportPlanDto {
 
 	public void setExpectedArrivalTime(LocalDateTime expectedArrivalTime) {
 		this.expectedArrivalTime = expectedArrivalTime;
+		this.delayedArrivalTime = expectedArrivalTime;
 	}
 
 	public void setDelayedArrivalTime(LocalDateTime delayedArrivalTime) {

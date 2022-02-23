@@ -3,6 +3,7 @@ package hu.lacztam.logistic.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.AddressFilterDto;
+import hu.lacztam.logistic.mapper.AddressMapper;
 import hu.lacztam.logistic.model.Address;
 import hu.lacztam.logistic.repository.AddressRepository;
 
@@ -25,6 +28,7 @@ import hu.lacztam.logistic.repository.AddressRepository;
 public class AddressService {
 
 	@Autowired AddressRepository addressRepository;
+	@Autowired AddressMapper addressMapper;
 	
 	public List<Address> getAllAddresses(){
 		return addressRepository.findAll();
@@ -51,20 +55,19 @@ public class AddressService {
 	}
 
 	@Transactional
-	public void modifyAddress(Address address) {
-		
+	public Address modifyAddress(Address address) {
+
 		Optional<Address> optionalAddress = addressRepository.findById(address.getAddressId());
-		
+		Address modifiedAddress;
 		if(optionalAddress.isPresent()) 
-			addressRepository.save(address);
+			return modifiedAddress = addressRepository.save(address);
 		else 
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		
 	}
 
 	@Transactional
-	public Page<Address> searchAddresses(@Valid AddressFilterDto addressFilterDto, Pageable paging) {
-		
+	public List<AddressDto> searchAddresses(@Valid AddressFilterDto addressFilterDto, Pageable paging, HttpServletResponse response) {
+	
 		Integer page = 0; 
 		Integer size = Integer.MAX_VALUE;
 		String sortValue = "addressId";
@@ -96,51 +99,9 @@ public class AddressService {
 			spec = spec.and(AddressSpecification.hasZipCode(zipCode));
 		
 		Page<Address> addresses = addressRepository.findAll(spec, paging);
-		
-		return addresses;
+		List<Address> addressPageList = addresses.getContent();		
+		response.addHeader("X-Total-Count", String.valueOf(addressPageList.size()));
+		return addressMapper.addressesToDtos(addressPageList);
 	}
 	
-	@Transactional
-	public Page<Address> searchAddressesWithFields(
-			AddressFilterDto addressFilterDto, 
-			Integer page, Integer size, String sortValue, String order){
-		
-		Pageable paging = null;
-		Sort sort = Sort.by("addressId").ascending();
-		
-		if(page == null)
-			page = 0;
-		
-		if(StringUtils.hasText(sortValue))
-			sort = Sort.by(sortValue);
-		
-		boolean descOrder = order.equals("descending") || order.equals("desc");
-		if(order != null && descOrder) 
-			sort = sort.descending();
-		
-		if(size == null)
-			paging = Pageable.unpaged();
-		else
-			paging = PageRequest.of(page, size, sort);
-		
-		String countryISO = addressFilterDto.getCountryISO();
-		String city=addressFilterDto.getCity();
-		String street = addressFilterDto.getStreet();
-		Integer zipCode = addressFilterDto.getZipCode();
-		
-		Specification<Address> spec = Specification.where(null);
-		
-		if(StringUtils.hasText(countryISO))
-			spec = spec.and(AddressSpecification.hasCity(countryISO));
-		if(StringUtils.hasText(city))
-			spec = spec.and(AddressSpecification.hasCity(city));
-		if(StringUtils.hasText(street)) 
-			spec = spec.and(AddressSpecification.hasStreet(street));
-		if(zipCode != null && zipCode > 0)
-			spec = spec.and(AddressSpecification.hasZipCode(zipCode));
-		
-		Page<Address> addresses = addressRepository.findAll(spec, paging);
-		
-		return addresses;
-	}
 }

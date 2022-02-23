@@ -56,12 +56,12 @@ public class MilestoneService {
 	}
 	
 	@Transactional
-	public Milestone getSectionsFromMilestoneByMilestoneId(long id) {
-		return milestoneRepository.getSectionsFromMilestoneByMilestoneId(id);
+	public Optional<Milestone> getFromMilestoneById(long milestoneId) {
+		return milestoneRepository.getFromMilestoneById(milestoneId);
 	}
 	
 	@Transactional
-	public Milestone getSectionsToMilestoneByMilestoneId(long id) {
-		return milestoneRepository.getSectionsToMilestoneByMilestoneId(id);
+	public Optional<Milestone> getToMilestoneById(long milestoneId) {
+		return milestoneRepository.getToMilestoneById(milestoneId);
 	}
 }

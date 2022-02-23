@@ -1,6 +1,9 @@
 package hu.lacztam.logistic.web;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.dto.TransportPlanDto;
 import hu.lacztam.logistic.mapper.TransportMapper;
-import hu.lacztam.logistic.model.Milestone;
+import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
 import hu.lacztam.logistic.service.MilestoneService;
 import hu.lacztam.logistic.service.TransportPlanService;
@@ -30,13 +33,10 @@ public class TransportController {
 	@GetMapping
 	public List<TransportPlanDto> getAllTransportPlansWithSections(){
 		
-		List<TransportPlan> transports 
-			= transportPlanService.getAllTransportPlansWithSections();
-
-		List<TransportPlanDto> transportPlans 
-			= transportMapper.transportPlansToDtos(transports);
+		List<TransportPlan> transports = transportPlanService.getAllTransportPlansWithSections();
+		List<TransportPlanDto> transportDtos = transportMapper.transportPlansToDtos(transports);
 	
-		return transportPlans;
+		return transportDtos;
 	}
 
 	@GetMapping("/{id}")
@@ -50,9 +50,12 @@ public class TransportController {
 			@RequestBody TransportDelayDto transportDelayDto) {
 		
 		TransportPlan transport = transportPlanService.addDelay(transportId, transportDelayDto);
+		TransportPlanDto transportDto = transportMapper.transportToDto(transport);
+		transportDto.setExpectedArrivalTime(LocalDateTime.now());
 		
-		return transportMapper.transportToDto(transport);
+		transportDto.addDelay(transportDelayDto.getDelayInMinutes());
+		
+		return transportDto;
 	}
-	
 	
 }

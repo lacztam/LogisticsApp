@@ -19,3 +19,8 @@ spring:
 logging:
   level:
     '[org.springframework.security]': debug
+
+logistic-app:
+  penalty-percent1: 5
+  penalty-percent2: 10 
+  penalty-percent3: 20 

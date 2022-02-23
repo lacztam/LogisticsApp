@@ -2,6 +2,7 @@ package hu.lacztam.logistic.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -28,20 +29,22 @@ public class TransportPlanService {
 	public TransportPlan addDelay(long transportId, TransportDelayDto transportDelayDto) {
 		Long milestoneId = transportDelayDto.getMilestoneDtoId();
 		Long delayInMinutes = transportDelayDto.getDelayInMinutes();
-	
+		
 		TransportPlan transport = getWithSectionsById(transportId);
+		checkingExistingMilestone(transport, milestoneId);
 		
-		Milestone fromMilestone = milestoneService.getSectionsFromMilestoneByMilestoneId(milestoneId);
-		Milestone toMilestone = milestoneService.getSectionsToMilestoneByMilestoneId(milestoneId);
+		Optional<Milestone> fromMilestone = milestoneService.getFromMilestoneById(milestoneId);
+		Optional<Milestone> toMilestone = milestoneService.getToMilestoneById(milestoneId);
 		
-		if(toMilestone == null) {
+		if(toMilestone.isEmpty()) {
 			Section section = sectionService.sectionByFromMilestoneId(milestoneId);
 			section.getFromMilestone().addDelay(delayInMinutes);
 			section.getToMilestone().addDelay(delayInMinutes);
 			sectionService.saveSection(section.getSectionId());
-		}else if(fromMilestone == null) {
+			
+		}else if(fromMilestone.isEmpty()) {
 			int nextSectionNumber 
-				= sectionService.sectionByTomilestoneId(milestoneId).getNumber() + 1;
+				= sectionService.sectionByToMilestoneId(milestoneId).getNumber() + 1;
 			Section section = sectionService.sectionBySectionNumber(nextSectionNumber);
 			section.getFromMilestone().addDelay(delayInMinutes);
 			sectionService.saveSection(section.getSectionId());
@@ -51,6 +54,25 @@ public class TransportPlanService {
 		return transport;
 	}
 	
+	private void checkingExistingMilestone(TransportPlan transportPlan, long milestoneId) {
+		boolean isPresentFromMilestone = isPresentFromMilestone(transportPlan, milestoneId);
+		boolean isPresentToMilestone = isPresentToMilestone(transportPlan, milestoneId);
+		
+		if(!isPresentFromMilestone && !isPresentToMilestone)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+	}
+	
+	private boolean isPresentFromMilestone(TransportPlan transportPlan, long milestoneId){
+		return transportPlan.getSections()
+			.stream()
+			.anyMatch(m -> m.getFromMilestone().getMilestoneId() == milestoneId);
+	}
+	
+	private boolean isPresentToMilestone(TransportPlan transportPlan, long milestoneId){
+		return transportPlan.getSections()
+			.stream()
+			.anyMatch(m -> m.getToMilestone().getMilestoneId() == milestoneId);
+	}
 	
 	@Transactional
 	public TransportPlan crateTransportPlan(TransportPlan transportPlan) {

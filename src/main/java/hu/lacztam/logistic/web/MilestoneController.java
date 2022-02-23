@@ -1,6 +1,7 @@
 package hu.lacztam.logistic.web;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import hu.lacztam.logistic.config.ConfigProperties;
 import hu.lacztam.logistic.dto.MilestoneDto;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.mapper.MilestoneMapper;
@@ -22,6 +24,7 @@ public class MilestoneController {
 
 	@Autowired MilestoneService milestoneService;
 	@Autowired MilestoneMapper milestoneMapper;
+	@Autowired ConfigProperties configProperties;
 	
 	@GetMapping
 	public List<MilestoneDto> getAllMilestones(){
@@ -44,4 +47,19 @@ public class MilestoneController {
 		return milestoneMapper.milestoneToDto(milestone);
 	}
 	
+	@GetMapping("/getFromMilestone/{milestoneId}")
+	public MilestoneDto getFromMilestoneById(@PathVariable long milestoneId) {
+		Optional<Milestone> milestone = milestoneService.getFromMilestoneById(milestoneId);
+		if(milestone.isPresent())
+			return milestoneMapper.milestoneToDto(milestone.get());
+		else return null;
+	}
+	
+	@GetMapping("/getToMilestone/{milestoneId}")
+	public MilestoneDto getToMilestoneById(@PathVariable long milestoneId) {
+		Optional<Milestone> milestone = milestoneService.getToMilestoneById(milestoneId);
+		if(milestone.isPresent())
+			return milestoneMapper.milestoneToDto(milestone.get());
+		else return null;
+	}
 }

@@ -1,6 +1,7 @@
 package hu.lacztam.logistic.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,13 +27,14 @@ public interface SectionRepository extends JpaRepository<Section, Long>, JpaSpec
 	
 	@Query("SELECT s FROM Section s "
 			+ "WHERE s.fromMilestone.milestoneId = :milestoneId ")
-	public Section sectionByFromMilestone(long milestoneId);
+	public Optional<Section> sectionByFromMilestone(long milestoneId);
 	
 	@Query("SELECT s FROM Section s "
 			+ "WHERE s.toMilestone.milestoneId = :milestoneId ")
-	public Section sectionByToMilestone(long milestoneId);
+	public Optional<Section> sectionByToMilestone(long milestoneId);
 	
 	@Query("SELECT s FROM Section s "
 			+ "WHERE s.number = :sectionNumber")
-	public Section sectionByNumber(int sectionNumber);
+	public Optional<Section> sectionByNumber(int sectionNumber);
+	
 }
