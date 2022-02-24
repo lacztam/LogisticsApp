@@ -21,6 +21,7 @@ logging:
     '[org.springframework.security]': debug
 
 logistic-app:
-  penalty-percent1: 5
-  penalty-percent2: 10 
-  penalty-percent3: 20 
+  penalty:
+    percent1: 5
+    percent2: 10 
+    percent3: 20 

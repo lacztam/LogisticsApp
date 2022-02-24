@@ -26,8 +26,8 @@ public class Address {
 	private Double latitude;
 	private Double longitude;
 
-	@OneToMany
-	List<Milestone> milestones;
+	@OneToOne
+	Milestone milestones;
 	
 	public Address() {
 	}
@@ -96,18 +96,19 @@ public class Address {
 		this.longitude = longitude;
 	}
 
-	public List<Milestone> getMilestones() {
+	public Milestone getMilestones() {
 		return milestones;
 	}
 
-	public void setMilestones(List<Milestone> milestones) {
+	public void setMilestones(Milestone milestones) {
 		this.milestones = milestones;
 	}
 
 	@Override
 	public String toString() {
-		return "\nAddress\n[addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
+		return "\n\nAddress\n[addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
 				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", milestones=" + milestones + "]\n";
+				+ ", longitude=" + longitude + ", milestones=" + milestones + "]";
 	}
+
 }

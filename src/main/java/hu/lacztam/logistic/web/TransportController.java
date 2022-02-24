@@ -32,7 +32,6 @@ public class TransportController {
 
 	@GetMapping
 	public List<TransportPlanDto> getAllTransportPlansWithSections(){
-		
 		List<TransportPlan> transports = transportPlanService.getAllTransportPlansWithSections();
 		List<TransportPlanDto> transportDtos = transportMapper.transportPlansToDtos(transports);
 	

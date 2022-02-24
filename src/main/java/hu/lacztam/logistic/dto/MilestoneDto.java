@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class MilestoneDto {
 	
 	private long milestoneId;
-	@ManyToOne
+	@OneToOne
 	private AddressDto addressDto;
 	private LocalDateTime plannedTime;
 	
@@ -59,7 +59,7 @@ public class MilestoneDto {
 
 	@Override
 	public String toString() {
-		return "MilestoneDto [milestoneId=" + milestoneId + ", addressDto=" + addressDto + ", plannedTime="
+		return "\n\nMilestoneDto\n[milestoneId=" + milestoneId + ", addressDto=" + addressDto + ", plannedTime="
 				+ plannedTime + ", sectionDto=" + sectionDto + "]";
 	}
 }

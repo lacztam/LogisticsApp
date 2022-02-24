@@ -5,15 +5,17 @@ import java.util.List;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 
 @NotNull
 public class AddressDto {
-
+	@Nullable
 	private Long addressId;
 	
 	@NotNull
@@ -38,8 +40,8 @@ public class AddressDto {
 	private double latitude;
 	private double longitude;
 	
-	@OneToMany
-	List<MilestoneDto> milestoneDtos;
+	@OneToOne
+	MilestoneDto milestoneDtos;
 	
 	public AddressDto() {
 	}
@@ -108,12 +110,18 @@ public class AddressDto {
 		this.longitude = longitude;
 	}
 
-	public List<MilestoneDto> getMilestoneDtos() {
+	public MilestoneDto getMilestoneDtos() {
 		return milestoneDtos;
 	}
 
-	public void setMilestoneDtos(List<MilestoneDto> milestoneDtos) {
+	public void setMilestoneDtos(MilestoneDto milestoneDtos) {
 		this.milestoneDtos = milestoneDtos;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "\n\nAddressDto\n[addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
+				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
+				+ ", longitude=" + longitude + ", milestoneDtos=" + milestoneDtos + "]";
+	}
 }

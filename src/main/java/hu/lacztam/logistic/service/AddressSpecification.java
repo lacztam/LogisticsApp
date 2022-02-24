@@ -23,5 +23,4 @@ public class AddressSpecification {
 	public static Specification<Address> hasStreet(String street){
 		return (root, cq, cb) -> cb.like(cb.lower(root.get(Address_.street)), (street + "%").toLowerCase() );
 	}
-	
 }

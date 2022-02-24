@@ -7,33 +7,38 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConfigProperties {
 	
-	private Integer penaltyPercent1 = null;
-
-	public Integer getPenaltyPercent1() {
-		return penaltyPercent1;
-	}
-
-	public void setPenaltyPercent1(Integer penaltyPercent1) {
-		this.penaltyPercent1 = penaltyPercent1;
-	}
+	private Penalty penalty = new Penalty();
 	
-	private Integer penaltyPercent2 = null;
-
-	public Integer getPenaltyPercent2() {
-		return penaltyPercent2;
+	public static class Penalty{
+		private double percent1;
+		private double percent2;
+		private double percent3;
+		public double getPercent1() {
+			return percent1;
+		}
+		public double getPercent2() {
+			return percent2;
+		}
+		public double getPercent3() {
+			return percent3;
+		}
+		public void setPercent1(double percent1) {
+			this.percent1 = percent1;
+		}
+		public void setPercent2(double percent2) {
+			this.percent2 = percent2;
+		}
+		public void setPercent3(double percent3) {
+			this.percent3 = percent3;
+		}
 	}
 
-	public void setPenaltyPercent2(Integer penaltyPercent2) {
-		this.penaltyPercent2 = penaltyPercent2;
-	}
-	
-	private Integer penaltyPercent3 = null;
-
-	public Integer getPenaltyPercent3() {
-		return penaltyPercent3;
+	public Penalty getPenalty() {
+		return penalty;
 	}
 
-	public void setPenaltyPercent3(Integer penaltyPercent3) {
-		this.penaltyPercent3 = penaltyPercent3;
+
+	public void setPenalty(Penalty penalty) {
+		this.penalty = penalty;
 	}
 }

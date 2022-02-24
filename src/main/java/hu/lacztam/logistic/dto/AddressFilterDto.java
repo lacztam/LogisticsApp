@@ -1,18 +1,11 @@
 package hu.lacztam.logistic.dto;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.springframework.format.annotation.NumberFormat;
-
-@NotNull
 public class AddressFilterDto {
 	
-	@Size(min=2, max=2)
 	String countryISO;
 	String city;
 	String street;
-	@NumberFormat
 	Integer zipCode;
 
 	public AddressFilterDto() {
@@ -48,6 +41,12 @@ public class AddressFilterDto {
 
 	public void setZipCode(Integer zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	@Override
+	public String toString() {
+		return "AddressFilterDto [countryISO=" + countryISO + ", city=" + city + ", street=" + street + ", zipCode="
+				+ zipCode + "]";
 	}
 	
 }

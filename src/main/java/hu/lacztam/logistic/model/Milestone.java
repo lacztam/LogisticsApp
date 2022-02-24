@@ -21,7 +21,7 @@ public class Milestone {
 	@GeneratedValue
 	private long milestoneId;
 	
-	@ManyToOne
+	@OneToOne
 	private Address address;
 	
 	@ManyToOne(targetEntity = Section.class)
@@ -67,5 +67,10 @@ public class Milestone {
 	public void setPlannedTime(LocalDateTime plannedTime) {
 		this.plannedTime = plannedTime;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "\n\nMilestone\n[milestoneId=" + milestoneId + ", address=" + address + ", section=" + section
+				+ ", plannedTime=" + plannedTime + "]";
+	}
 }

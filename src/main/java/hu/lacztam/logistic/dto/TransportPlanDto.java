@@ -36,6 +36,8 @@ public class TransportPlanDto {
 	public TransportPlanDto() {
 		this.delayedArrivalTime = this.expectedArrivalTime;
 		this.finalIncome = this.expectedIncome;
+		if(this.config == null)
+			this.config = new ConfigProperties();
 	}
 	
 	public void addDelay(long minutes) {
@@ -45,11 +47,11 @@ public class TransportPlanDto {
 	
 	private void calculateFinalIncome(long minutes) {
 		if(minutes >= 30) 
-			this.finalIncome = (int)((1.0f - config.getPenaltyPercent1()) * this.finalIncome);
+			this.finalIncome = (int)((1.0f - config.getPenalty().getPercent1()) * this.finalIncome);
 		else if(minutes >= 60) 
-			this.finalIncome = (int)((1.0f - config.getPenaltyPercent2()) * this.finalIncome);
+			this.finalIncome = (int)((1.0f - config.getPenalty().getPercent2()) * this.finalIncome);
 		else if(minutes >= 120) 
-			this.finalIncome = (int)((1.0f - config.getPenaltyPercent3()) * this.finalIncome);
+			this.finalIncome = (int)((1.0f - config.getPenalty().getPercent3()) * this.finalIncome);
 	}
 
 	public long getTransportId() {
