@@ -35,6 +35,10 @@ public class Milestone {
 	public void addDelay(long minutes) {
 		this.plannedTime = this.plannedTime.plusMinutes(minutes);
 	}
+	
+	public void addAddress(Address address) {
+		this.address = address;
+	}
 
 	public long getMilestoneId() {
 		return milestoneId;

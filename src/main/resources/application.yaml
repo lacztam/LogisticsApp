@@ -1,6 +1,8 @@
 spring:
   profiles:
     active: "dev"
+  main:
+    allow-circular-references: true 
     
   mvc:
     format:
@@ -25,3 +27,4 @@ logistic-app:
     percent1: 5
     percent2: 10 
     percent3: 20 
+

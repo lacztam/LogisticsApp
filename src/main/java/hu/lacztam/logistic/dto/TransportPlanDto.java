@@ -20,88 +20,42 @@ import hu.lacztam.logistic.config.ConfigProperties;
 @NotNull
 public class TransportPlanDto {
 	
-	@Autowired ConfigProperties config;
-
 	private long transportId;
-	private long expectedIncome;
-	private long finalIncome;
+	private long income;
 	
 	@OneToMany
 	private List<SectionDto> sectionDtos;
-
-	private LocalDateTime expectedArrivalTime;
-	private LocalDateTime delayedArrivalTime;
-	
 	
 	public TransportPlanDto() {
-		this.delayedArrivalTime = this.expectedArrivalTime;
-		this.finalIncome = this.expectedIncome;
-		if(this.config == null)
-			this.config = new ConfigProperties();
-	}
-	
-	public void addDelay(long minutes) {
-		this.delayedArrivalTime.plusMinutes(minutes);
-		calculateFinalIncome(minutes);
-	}
-	
-	private void calculateFinalIncome(long minutes) {
-		if(minutes >= 30) 
-			this.finalIncome = (int)((1.0f - config.getPenalty().getPercent1()) * this.finalIncome);
-		else if(minutes >= 60) 
-			this.finalIncome = (int)((1.0f - config.getPenalty().getPercent2()) * this.finalIncome);
-		else if(minutes >= 120) 
-			this.finalIncome = (int)((1.0f - config.getPenalty().getPercent3()) * this.finalIncome);
 	}
 
 	public long getTransportId() {
 		return transportId;
 	}
 
-	public long getExpectedIncome() {
-		return expectedIncome;
-	}
-
-	public long getFinalIncome() {
-		return finalIncome;
+	public long getIncome() {
+		return income;
 	}
 
 	public List<SectionDto> getSectionDtos() {
 		return sectionDtos;
 	}
 
-	public LocalDateTime getExpectedArrivalTime() {
-		return expectedArrivalTime;
-	}
-
-	public LocalDateTime getDelayedArrivalTime() {
-		return delayedArrivalTime;
-	}
-
 	public void setTransportId(long transportId) {
 		this.transportId = transportId;
 	}
 
-	public void setExpectedIncome(long expectedIncome) {
-		this.expectedIncome = expectedIncome;
-		this.finalIncome = expectedIncome;
-	}
-
-	public void setFinalIncome(long finalIncome) {
-		this.finalIncome = finalIncome;
+	public void setIncome(long income) {
+		this.income = income;
 	}
 
 	public void setSectionDtos(List<SectionDto> sectionDtos) {
 		this.sectionDtos = sectionDtos;
 	}
 
-	public void setExpectedArrivalTime(LocalDateTime expectedArrivalTime) {
-		this.expectedArrivalTime = expectedArrivalTime;
-		this.delayedArrivalTime = expectedArrivalTime;
+	@Override
+	public String toString() {
+		return "\n\nTransportPlanDto\n[transportId=" + transportId + ", income=" + income + ", sectionDtos=" + sectionDtos
+				+ "]";
 	}
-
-	public void setDelayedArrivalTime(LocalDateTime delayedArrivalTime) {
-		this.delayedArrivalTime = delayedArrivalTime;
-	}
-
 }

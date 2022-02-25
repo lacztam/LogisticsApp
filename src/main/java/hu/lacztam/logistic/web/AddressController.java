@@ -33,7 +33,6 @@ public class AddressController {
 
 	@Autowired AddressService addressService;
 	@Autowired AddressMapper addressMapper;
-	@Autowired ConfigProperties configProperties;
 	
 	@GetMapping
 	public List<AddressDto> addresses(){
@@ -53,9 +52,7 @@ public class AddressController {
 	
 	@GetMapping("/{addressId}")
 	public AddressDto getAddressById(@PathVariable long addressId) {
-		Address address = addressService.findById(addressId);
-		
-		return addressMapper.addressToDto(address);
+		return addressMapper.addressToDto(addressService.findById(addressId));
 	}
 	
 	@DeleteMapping("/{addressId}")
@@ -67,9 +64,7 @@ public class AddressController {
 	public ResponseEntity<AddressDto> modifyAddress(
 			@PathVariable long addressId, 
 			@RequestBody @Valid AddressDto addressDto) {
-
 		Address modifiedadd = addressService.modifyAddress(addressId, addressDto);		
-		
 		return ResponseEntity.ok(addressMapper.addressToDto(modifiedadd));
 	}
 	
@@ -78,7 +73,7 @@ public class AddressController {
 			@RequestBody AddressFilterDto addressFilterDto, 
 			@PageableDefault(size = 999) Pageable pageable,
 			HttpServletResponse response) {
-		
+
 		Page<Address> addressPage 
 				= addressService.searchAddresses(addressFilterDto, pageable);
 		

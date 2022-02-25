@@ -97,7 +97,7 @@ public class InitDbService {
 		TransportPlan transportPlan = new TransportPlan();
 		transportPlan.addSection(sectionService.sectionById(9));
 		transportPlan.addSection(sectionService.sectionById(10));
-		transportPlan.setExpectedIncome(100000);
+		transportPlan.setIncome(100000);
 		transportPlanService.crateTransportPlan(transportPlan);
 	}
 }

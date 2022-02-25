@@ -46,6 +46,20 @@ public class AddressService {
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 
+	public Optional<Address> findByIdOptional(Long id) {
+		if(id != null) {
+			Optional<Address> address = addressRepository.findById(id);
+			return address;
+		}else {
+			return null;
+		}
+	}
+	
+	@Transactional
+	public Address saveAddress(Address address) {
+		return addressRepository.save(address);
+	}
+	
 	@Transactional
 	public void deleteAddressById(long id) {
 		Optional<Address> address = addressRepository.findById(id);

@@ -10,14 +10,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import hu.lacztam.logistic.config.ConfigProperties;
 
 @Entity
 public class TransportPlan {
-
+	
 	@Id
 	@GeneratedValue
 	private long transportId;
-	private long expectedIncome;
+	private long income;
 	
 	@OneToMany
 	private List<Section> sections;
@@ -31,13 +36,13 @@ public class TransportPlan {
 		sections.add(section);
 		section.setTransportPlan(this);
 	}
-
+	
 	public long getTransportId() {
 		return transportId;
 	}
 
-	public long getExpectedIncome() {
-		return expectedIncome;
+	public long getIncome() {
+		return income;
 	}
 
 	public List<Section> getSections() {
@@ -48,17 +53,17 @@ public class TransportPlan {
 		this.transportId = transportId;
 	}
 
-	public void setExpectedIncome(long expectedIncome) {
-		this.expectedIncome = expectedIncome;
+	public void setIncome(long income) {
+		this.income = income;
 	}
 
 	public void setSections(List<Section> sections) {
 		this.sections = sections;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "TransportPlan [transportId=" + transportId + ", expectedIncome=" + expectedIncome + ", sections="
+		return "\n\nTransportPlan\n[transportId=" + transportId + ", income=" + income + ", sections="
 				+ sections + "]";
 	}
 }

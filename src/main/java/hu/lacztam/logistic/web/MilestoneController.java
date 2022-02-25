@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.lacztam.logistic.config.ConfigProperties;
+import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.MilestoneDto;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.mapper.MilestoneMapper;
@@ -28,11 +30,6 @@ public class MilestoneController {
 	
 	@GetMapping
 	public List<MilestoneDto> getAllMilestones(){
-		return milestoneMapper.milestonesToDtos(milestoneService.getAllMilestones());
-	}
-	
-	@GetMapping("/withAddresses")
-	public List<MilestoneDto> getAllMilestonesWithAddresses(){
 		return milestoneMapper.milestonesToDtos(milestoneService.getAllMilestonesWithAddresses());
 	}
 	
@@ -61,5 +58,19 @@ public class MilestoneController {
 		if(milestone.isPresent())
 			return milestoneMapper.milestoneToDto(milestone.get());
 		else return null;
+	}
+	
+	@PostMapping
+	public MilestoneDto createMilestone(@RequestBody MilestoneDto milestoneDto) {
+		Milestone milestone = milestoneService.createMilestone(milestoneMapper.dtoTomilestone(milestoneDto));
+		return milestoneMapper.milestoneToDto(milestone);
+	}
+	
+	@PutMapping("/{milestoneId}/addAddress")
+	public MilestoneDto addAddressToMilestone(
+			@RequestBody AddressDto addressDto, 
+			@PathVariable long milestoneId) {
+		Milestone milestone = milestoneService.addAddressToMilestone(milestoneId, addressDto);
+		return milestoneMapper.milestoneToDto(milestone);
 	}
 }

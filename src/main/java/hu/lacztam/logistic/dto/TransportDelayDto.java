@@ -36,6 +36,6 @@ public class TransportDelayDto {
 
 	@Override
 	public String toString() {
-		return "TransportDelayDto [milestoneDtoId=" + milestoneDtoId + ", delayInMinutes=" + delayInMinutes + "]";
+		return "\n\nTransportDelayDto\n[milestoneDtoId=" + milestoneDtoId + ", delayInMinutes=" + delayInMinutes + "]";
 	}
 }

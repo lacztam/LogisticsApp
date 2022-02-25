@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.TransportDelayDto;
+import hu.lacztam.logistic.mapper.AddressMapper;
+import hu.lacztam.logistic.model.Address;
 import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.repository.MilestoneRepository;
 
@@ -18,10 +21,17 @@ import hu.lacztam.logistic.repository.MilestoneRepository;
 public class MilestoneService {
 
 	@Autowired MilestoneRepository milestoneRepository;
+	@Autowired AddressMapper addressMapper;
+	@Autowired AddressService addressService;
 
 	@Transactional
-	public Milestone createMilestone(Milestone milestone1) {
-		return milestoneRepository.save(milestone1);
+	public Milestone createMilestone(Milestone milestone) {
+		Optional<Milestone> checkIfArgumentMilestoneIsExist 
+				= milestoneRepository.findById(milestone.getMilestoneId());
+		if(checkIfArgumentMilestoneIsExist.isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+		
+		return milestoneRepository.save(milestone);
 	}
 	
 	@Transactional
@@ -64,4 +74,30 @@ public class MilestoneService {
 	public Optional<Milestone> getToMilestoneById(long milestoneId) {
 		return milestoneRepository.getToMilestoneById(milestoneId);
 	}
+	
+	@Transactional
+	public Milestone addAddressToMilestone(long milestoneId, AddressDto addressDto) {
+		Milestone milestone = findById(milestoneId);
+
+		Address address = addressMapper.dtoToAddress(addressDto);
+		Long addressId = address.getAddressId();
+		
+		Optional<Address> addressOptional = addressService.findByIdOptional(addressId);
+		
+		if(addressOptional.isEmpty()) {
+			Address createNewAddress = addressService.createAddress(address);
+			milestone.addAddress(createNewAddress);
+			return milestoneRepository.save(milestone);
+			
+		}else {
+			Address overWriteAddress = addressOptional.get();
+			overWriteAddress.modifyAddress(address);
+			addressService.saveAddress(overWriteAddress);
+
+			milestone.addAddress(overWriteAddress);
+			return milestoneRepository.save(milestone);
+		}
+		
+	}
+	
 }

@@ -16,15 +16,13 @@ import hu.lacztam.logistic.model.TransportPlan;
 @Mapper(componentModel = "spring")
 public interface TransportMapper {
 
-	@Mapping(target = "finalIncome", ignore = true)
-	@Mapping(target = "expectedArrivalTime", ignore = true)
-	@Mapping(target = "delayedArrivalTime", ignore = true)
+	@Mapping(target = "income", source = "income")
 	@Mapping(target = "sectionDtos.transportPlanDto", ignore = true)
-//	@Mapping(target = "sectionDtos.fromMilestoneDto", source = "sections.fromMilestone")
 	@Mapping(target = "sectionDtos", source = "sections")
 	TransportPlanDto transportToDto(TransportPlan plan);
 	
 	@Mapping(target = "sections", ignore = true)
+	@Mapping(target = "income", source = "income")
 	TransportPlan dtoToTransport(TransportPlanDto dto);
 	
 	List<TransportPlan> dtosToTransportPlans(List<TransportPlanDto> dtos);

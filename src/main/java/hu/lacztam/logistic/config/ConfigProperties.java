@@ -13,6 +13,7 @@ public class ConfigProperties {
 		private double percent1;
 		private double percent2;
 		private double percent3;
+		
 		public double getPercent1() {
 			return percent1;
 		}
@@ -37,8 +38,14 @@ public class ConfigProperties {
 		return penalty;
 	}
 
-
 	public void setPenalty(Penalty penalty) {
 		this.penalty = penalty;
+	}
+
+	@Override
+	public String toString() {
+		return "\n\nConfigProperties\n[penalty.getPercent1()=" + penalty.getPercent1() + 
+									", penalty.getPercent2()=" + penalty.getPercent2() +
+									", penalty.getPercent3()=" + penalty.getPercent3() + " ]";
 	}
 }

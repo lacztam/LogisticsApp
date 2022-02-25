@@ -32,6 +32,17 @@ public class Address {
 	public Address() {
 	}
 
+	public void modifyAddress(Address address) {
+		this.countryISO = address.getCountryISO();
+		this.city = address.getCity();
+		this.street = address.getStreet();
+		this.zipCode = address.getZipCode();
+		this.houseNumber = address.getHouseNumber();
+		this.latitude = address.getLatitude();
+		this.longitude = address.getLongitude();
+		this.milestones = address.getMilestones();
+	}
+	
 	public Long getAddressId() {
 		return addressId;
 	}

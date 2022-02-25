@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.lacztam.logistic.config.ConfigProperties;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
@@ -24,6 +25,7 @@ public class TransportPlanService {
 	@Autowired TransportPlanRepository transportRepository;
 	@Autowired MilestoneService milestoneService;
 	@Autowired SectionService sectionService;
+	@Autowired ConfigProperties config;
 
 	@Transactional
 	public TransportPlan addDelay(long transportId, TransportDelayDto transportDelayDto) {
@@ -33,25 +35,60 @@ public class TransportPlanService {
 		TransportPlan transport = getWithSectionsById(transportId);
 		checkingExistingMilestone(transport, milestoneId);
 		
-		Optional<Milestone> fromMilestone = milestoneService.getFromMilestoneById(milestoneId);
-		Optional<Milestone> toMilestone = milestoneService.getToMilestoneById(milestoneId);
+		Optional<Section> sectionWithFromMilestone 
+			= transport.getSections()
+				.stream()
+				.filter(m -> m.getFromMilestone().getMilestoneId() == milestoneId)
+				.findFirst();
+		Optional<Section> sectionWithToMilestone 
+			= transport.getSections()
+				.stream()
+				.filter(m -> m.getToMilestone().getMilestoneId() == milestoneId)
+				.findFirst();
 		
-		if(toMilestone.isEmpty()) {
-			Section section = sectionService.sectionByFromMilestoneId(milestoneId);
-			section.getFromMilestone().addDelay(delayInMinutes);
-			section.getToMilestone().addDelay(delayInMinutes);
-			sectionService.saveSection(section.getSectionId());
+		if(sectionWithToMilestone.isEmpty()) {
+			int sectionNumber = sectionWithFromMilestone.get().getNumber();
 			
-		}else if(fromMilestone.isEmpty()) {
-			int nextSectionNumber 
-				= sectionService.sectionByToMilestoneId(milestoneId).getNumber() + 1;
-			Section section = sectionService.sectionBySectionNumber(nextSectionNumber);
-			section.getFromMilestone().addDelay(delayInMinutes);
-			sectionService.saveSection(section.getSectionId());
+			transport.getSections()
+				.stream()
+				.filter(s -> s.getNumber() == sectionNumber)
+				.findFirst().get()
+				.getFromMilestone()
+				.addDelay(delayInMinutes);
+			
+			transport.getSections()
+				.stream()
+				.filter(s -> s.getNumber() == sectionNumber)
+				.findFirst().get()
+				.getToMilestone()
+				.addDelay(delayInMinutes);
+			
+		}else if(sectionWithFromMilestone.isEmpty()) {
+			Long nextSectionNumber = (long)sectionWithToMilestone.get().getNumber() + 1;
+			if(nextSectionNumber != null){
+				transport.getSections()
+				.stream()
+				.filter(s -> s.getNumber() == nextSectionNumber)
+				.findFirst().get()
+				.getFromMilestone().addDelay(delayInMinutes);
+			}
 		}
 		
-//		transportRepository.save(transport);
-		return transport;
+		transport.setIncome(calculateIncomeByDelay(transport.getIncome(), delayInMinutes));
+		
+		return transportRepository.save(transport);
+	}
+	
+	private long calculateIncomeByDelay(long income, long minutes) {
+		
+		if(minutes >= 120) 
+			income = (long)(((100.0 - (double)config.getPenalty().getPercent3()) / 100.0) * (double)income);
+		else if(minutes >= 60) 
+			income = (long)(((100.0 - (double)config.getPenalty().getPercent2()) / 100.0) * (double)income);
+		else if(minutes >= 30) 
+			income = (long)(((100.0 - (double)config.getPenalty().getPercent1()) / 100.0) * (double)income);
+		
+		return income;
 	}
 	
 	private void checkingExistingMilestone(TransportPlan transportPlan, long milestoneId) {
@@ -76,40 +113,24 @@ public class TransportPlanService {
 	
 	@Transactional
 	public TransportPlan crateTransportPlan(TransportPlan transportPlan) {
-		return transportRepository.save(transportPlan);
+		Optional<TransportPlan> transportPlanOptional = transportRepository.findById(transportPlan.getTransportId());
+		if(transportPlanOptional.isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+		else
+			return transportRepository.save(transportPlan);
 	}
 
 	@Transactional
-	public List<TransportPlan> findAll(){
-		return transportRepository.findAll();
+	public List<TransportPlan> getAllWithSections(){
+		return transportRepository.everyTransportPlansWithSections();
 	}
 	
-	@Transactional
-	public List<TransportPlan> getAllTransportPlansWithSections(){
-		return transportRepository.getEveryTransportWithSections();
-	}
-	
-	@Transactional
-	public TransportPlan getById(long id) {
-		return transportRepository.getTransByIdJustBody(id);
-	}
-
 	@Transactional
 	public TransportPlan getWithSectionsById(long id) {
-		TransportPlan transport = transportRepository.getTransportWithSectionsById(id);
+		TransportPlan transport = transportRepository.getTransportPlanWithSectionsById(id);
 		if(transport != null)
 			return transport;
 		else
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
-	
-	@Transactional
-	public TransportPlan findById(long id) {
-		Optional<TransportPlan> transportPlan = transportRepository.findById(id);
-		if(transportPlan.isPresent())
-			return transportPlan.get();
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	}
-	
 }

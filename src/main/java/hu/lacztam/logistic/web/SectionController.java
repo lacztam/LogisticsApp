@@ -32,12 +32,7 @@ public class SectionController {
 	
 	@GetMapping("/withMilestones/{id}")
 	public SectionDto getSectionById(@PathVariable long id){
-		Section sectionById = sectionService.sectionById(id);
-		return sectionMapper.sectionToDto(sectionById);
+		return sectionMapper.sectionToDto(sectionService.sectionById(id));
 	}
 	
-//	@GetMapping("/{milestoneId}/getSectionByMilestoneId/")
-//	public SectionDto getSectionByMilestoneId(@PathVariable long milestoneId) {
-//		return sectionMapper.sectionToDto(sectionService.sectionByMilestoneId(milestoneId));
-//	}
 }

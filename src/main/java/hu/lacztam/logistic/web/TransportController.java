@@ -1,9 +1,6 @@
 package hu.lacztam.logistic.web;
 
-import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.dto.TransportPlanDto;
 import hu.lacztam.logistic.mapper.TransportMapper;
-import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
 import hu.lacztam.logistic.service.MilestoneService;
 import hu.lacztam.logistic.service.TransportPlanService;
@@ -29,10 +25,9 @@ public class TransportController {
 	@Autowired TransportMapper transportMapper;
 	@Autowired MilestoneService milestoneService;
 	
-
 	@GetMapping
-	public List<TransportPlanDto> getAllTransportPlansWithSections(){
-		List<TransportPlan> transports = transportPlanService.getAllTransportPlansWithSections();
+	public List<TransportPlanDto> getAll(){
+		List<TransportPlan> transports = transportPlanService.getAllWithSections();
 		List<TransportPlanDto> transportDtos = transportMapper.transportPlansToDtos(transports);
 	
 		return transportDtos;
@@ -44,15 +39,12 @@ public class TransportController {
 	}
 	
 	@PostMapping("/{transportId}/delay")
-	public TransportPlanDto transportPlanDto(
+	public TransportPlanDto addDelay(
 			@PathVariable long transportId,
 			@RequestBody TransportDelayDto transportDelayDto) {
 		
-		TransportPlan transport = transportPlanService.addDelay(transportId, transportDelayDto);
-		TransportPlanDto transportDto = transportMapper.transportToDto(transport);
-		transportDto.setExpectedArrivalTime(LocalDateTime.now());
-		
-		transportDto.addDelay(transportDelayDto.getDelayInMinutes());
+		TransportPlanDto transportDto 
+				= transportMapper.transportToDto(transportPlanService.addDelay(transportId, transportDelayDto));
 		
 		return transportDto;
 	}
