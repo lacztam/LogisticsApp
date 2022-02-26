@@ -20,11 +20,6 @@ public interface SectionRepository extends JpaRepository<Section, Long>, JpaSpec
 	@Query("SELECT s FROM Section s WHERE s.sectionId = :id")
 	public Section sectionById(long id);
 
-//	@Query("SELECT s FROM Section s "
-//			+ "WHERE s.fromMilestone.milestoneId = :id "
-//			+ "OR s.toMilestone.milestoneId = :id")
-//	public Section findByMilestoneId(long id);
-	
 	@Query("SELECT s FROM Section s "
 			+ "WHERE s.fromMilestone.milestoneId = :milestoneId ")
 	public Optional<Section> sectionByFromMilestone(long milestoneId);

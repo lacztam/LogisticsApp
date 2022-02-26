@@ -37,8 +37,8 @@ public interface TransportMapper {
 	@Mapping(target = "transportPlanDto", ignore = true)
 	@Mapping(target = "toMilestoneDto.addressDto", source = "toMilestone.address")
 	@Mapping(target = "fromMilestoneDto.addressDto", source = "fromMilestone.address")
-	@Mapping(target = "toMilestoneDto.addressDto.milestoneDtos", ignore = true)
-	@Mapping(target = "fromMilestoneDto.addressDto.milestoneDtos", ignore = true)
+	@Mapping(target = "toMilestoneDto.addressDto.milestoneDto", ignore = true)
+	@Mapping(target = "fromMilestoneDto.addressDto.milestoneDto", ignore = true)
 	SectionDto sectionToDto(Section section);
 
 	@InheritInverseConfiguration

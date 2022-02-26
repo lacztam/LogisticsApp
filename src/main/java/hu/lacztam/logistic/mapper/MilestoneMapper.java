@@ -23,12 +23,6 @@ public interface MilestoneMapper {
 	@Mapping(target = "section", ignore = true)
 	Milestone dtoTomilestone(MilestoneDto dto);
 	
-//	@Named("noaddress")
-//	@Mapping(ignore = true, target = "address")
-//	Milestone dtoTomilestoneNoAddress(MilestoneDto dto);
-//	@Mapping(ignore = true, target = "addressDto")
-//	MilestoneDto milestoneToDtoNoAddress(Milestone milestone);
-	
 	List<MilestoneDto> milestonesToDtos(List<Milestone> milestones);
 	List<Milestone> dtoToMilestone(List<MilestoneDto> dtos);
 }

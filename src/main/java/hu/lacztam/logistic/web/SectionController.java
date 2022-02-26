@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +35,23 @@ public class SectionController {
 	
 	@GetMapping("/withMilestones/{id}")
 	public SectionDto getSectionById(@PathVariable long id){
-		return sectionMapper.sectionToDto(sectionService.sectionById(id));
+		return sectionMapper.sectionToDto(sectionService.findSectionById(id));
 	}
 	
+	@PostMapping
+	public SectionDto createSection(@RequestBody SectionDto sectionDto) {
+		return sectionMapper.sectionToDto(sectionService.createSection(sectionDto));
+	}
+	
+	@PutMapping("/{sectionId}/addFromMileston/{fromMilestoneId}")
+	public SectionDto addFromMilestone(@PathVariable long sectionId, @PathVariable long fromMilestoneId) {
+		sectionService.addFromMilestone(sectionId, fromMilestoneId);
+		return sectionMapper.sectionToDto(sectionService.findSectionById(sectionId));
+	}
+	
+	@PutMapping("/{sectionId}/addToMileston/{toMilestoneId}")
+	public SectionDto addToMilestone(@PathVariable long sectionId, @PathVariable long toMilestoneId) {
+		sectionService.addToMilestone(sectionId, toMilestoneId);
+		return sectionMapper.sectionToDto(sectionService.findSectionById(sectionId));
+	}
 }

@@ -27,7 +27,7 @@ public class InitDbService {
 		address1.setZipCode(6724);
 		address1.setLatitude(28.123456);
 		address1.setLongitude(45.678910);
-		addressService.createAddress(address1);
+		address1 = addressService.createAddress(address1);
 		
 		Address address2 = new Address();
 		address2.setCity("Budapest");
@@ -37,7 +37,7 @@ public class InitDbService {
 		address2.setZipCode(1105);
 		address2.setLatitude(73.123456);
 		address2.setLongitude(99.678910);
-		addressService.createAddress(address2);
+		address2 = addressService.createAddress(address2);
 		
 		Address address3 = new Address();
 		address3.setCity("Pécs");
@@ -47,7 +47,7 @@ public class InitDbService {
 		address3.setZipCode(1234);
 		address3.setLatitude(38.123456);
 		address3.setLongitude(45.678910);
-		addressService.createAddress(address3);
+		address3 = addressService.createAddress(address3);
 		
 		Address address4 = new Address();
 		address4.setCity("Székesfehérvár");
@@ -57,47 +57,52 @@ public class InitDbService {
 		address4.setZipCode(7777);
 		address4.setLatitude(63.123456);
 		address4.setLongitude(54.678910);
-		addressService.createAddress(address4);
+		address4 = addressService.createAddress(address4);
 		
 		
 		Milestone milestone1 = new Milestone();
-		milestone1.setAddress(address1);
 		milestone1.setPlannedTime(LocalDateTime.now());
-		milestoneService.createMilestone(milestone1);
+		milestone1 = milestoneService.createMilestone(milestone1);
+		System.out.println("\n\nmilestone1.getMilestoneId():" + milestone1.getMilestoneId() + "\n");
+		milestoneService.addAddressToMilestone(milestone1.getMilestoneId(), address1.getAddressId());
 		
 		Milestone milestone2 = new Milestone();
-		milestone2.setAddress(address2);
 		milestone2.setPlannedTime(milestone1.getPlannedTime().plusDays(1).plusHours(2).plusMinutes(23));
-		milestoneService.createMilestone(milestone2);
+		milestone2 = milestoneService.createMilestone(milestone2);
+		milestoneService.addAddressToMilestone(milestone2.getMilestoneId(), address2.getAddressId());
 	
 		Milestone milestone3 = new Milestone();
-		milestone3.setAddress(address3);
 		milestone3.setPlannedTime(milestone2.getPlannedTime().plusDays(1).plusHours(3).plusMinutes(42));
-		milestoneService.createMilestone(milestone3);
+		milestone3 = milestoneService.createMilestone(milestone3);
+		milestoneService.addAddressToMilestone(milestone3.getMilestoneId(), address3.getAddressId());
 		
 		Milestone milestone4 = new Milestone();
-		milestone4.setAddress(address4);
 		milestone4.setPlannedTime(milestone3.getPlannedTime().plusDays(1).plusHours(4).plusMinutes(18));
-		milestoneService.createMilestone(milestone4);
+		milestone4 = milestoneService.createMilestone(milestone4);
+		milestoneService.addAddressToMilestone(milestone4.getMilestoneId(), address4.getAddressId());
 		
 		
 		Section section1 = new Section();
 		section1.setNumber(0);
-		section1.setFromMilestone(milestone1);
-		section1.setToMilestone(milestone2);
-		sectionService.crateSection(section1);
+		section1 = sectionService.crateNormalSection(section1);
+		sectionService.addFromMilestone(section1.getSectionId(), milestone1.getMilestoneId());
+		section1 = sectionService.addToMilestone(section1.getSectionId(), milestone2.getMilestoneId());
 		
 		Section section2 = new Section();
 		section2.setNumber(1);
-		section2.setFromMilestone(milestone3);
-		section2.setToMilestone(milestone4);
-		sectionService.crateSection(section2);
+		sectionService.crateNormalSection(section2);
+		sectionService.addFromMilestone(section2.getSectionId(), milestone3.getMilestoneId());
+		section2 = sectionService.addToMilestone(section2.getSectionId(), milestone4.getMilestoneId());
 		
 		
 		TransportPlan transportPlan = new TransportPlan();
-		transportPlan.addSection(sectionService.sectionById(9));
-		transportPlan.addSection(sectionService.sectionById(10));
+		transportPlan.addSection(section1);
+		transportPlan.addSection(section2);
 		transportPlan.setIncome(100000);
-		transportPlanService.crateTransportPlan(transportPlan);
+		transportPlan = transportPlanService.saveTransportPlan(transportPlan);
+		section1.setTransportPlan(transportPlan);
+		section2.setTransportPlan(transportPlan);
+		sectionService.saveSection(section1);
+		sectionService.saveSection(section2);
 	}
 }

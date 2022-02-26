@@ -27,7 +27,7 @@ public class Address {
 	private Double longitude;
 
 	@OneToOne
-	Milestone milestones;
+	Milestone milestone;
 	
 	public Address() {
 	}
@@ -40,7 +40,7 @@ public class Address {
 		this.houseNumber = address.getHouseNumber();
 		this.latitude = address.getLatitude();
 		this.longitude = address.getLongitude();
-		this.milestones = address.getMilestones();
+		this.milestone = address.getMilestone();
 	}
 	
 	public Long getAddressId() {
@@ -107,19 +107,18 @@ public class Address {
 		this.longitude = longitude;
 	}
 
-	public Milestone getMilestones() {
-		return milestones;
+	public Milestone getMilestone() {
+		return milestone;
 	}
 
-	public void setMilestones(Milestone milestones) {
-		this.milestones = milestones;
+	public void setMilestone(Milestone milestone) {
+		this.milestone = milestone;
 	}
 
 	@Override
 	public String toString() {
-		return "\n\nAddress\n[addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
+		return "Address [addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
 				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", milestones=" + milestones + "]";
+				+ ", longitude=" + longitude + ", milestone=" + milestone + "]";
 	}
-
 }

@@ -51,8 +51,8 @@ public class AddressController {
 	}
 	
 	@GetMapping("/{addressId}")
-	public AddressDto getAddressById(@PathVariable long addressId) {
-		return addressMapper.addressToDto(addressService.findById(addressId));
+	public Address getAddressById(@PathVariable long addressId) {
+		return addressService.findById(addressId);
 	}
 	
 	@DeleteMapping("/{addressId}")
@@ -84,4 +84,12 @@ public class AddressController {
 		return addressDtoPage;
 	}
 	
+	@PutMapping("/{addressId}/addMilestone/{milestoneId}")
+	public AddressDto addMilestoneToAddress(
+			@PathVariable long addressId, 
+			@PathVariable long milestoneId ) {
+		
+		return addressMapper.addressToDto
+				(addressService.addMilestoneToAddress(addressId, milestoneId));
+	}	
 }

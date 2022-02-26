@@ -38,6 +38,12 @@ public class MilestoneController {
 		return milestoneMapper.milestoneToDto(milestoneService.findById(milestoneId));
 	}
 	
+	@GetMapping("/getAll")
+	public List<MilestoneDto> getAll(){
+		List<Milestone> everyMilestones = milestoneService.getAllMilestonesQuery();
+		return milestoneMapper.milestonesToDtos(everyMilestones);
+	}
+	
 	@PostMapping("/delay")
 	public MilestoneDto addDelay(@RequestBody TransportDelayDto transportDelayDto) {
 		Milestone milestone = milestoneService.addDelay(transportDelayDto);
@@ -46,18 +52,14 @@ public class MilestoneController {
 	
 	@GetMapping("/getFromMilestone/{milestoneId}")
 	public MilestoneDto getFromMilestoneById(@PathVariable long milestoneId) {
-		Optional<Milestone> milestone = milestoneService.getFromMilestoneById(milestoneId);
-		if(milestone.isPresent())
-			return milestoneMapper.milestoneToDto(milestone.get());
-		else return null;
+		Milestone milestone = milestoneService.getFromMilestoneById(milestoneId);
+		return milestoneMapper.milestoneToDto(milestone);
 	}
 	
 	@GetMapping("/getToMilestone/{milestoneId}")
 	public MilestoneDto getToMilestoneById(@PathVariable long milestoneId) {
-		Optional<Milestone> milestone = milestoneService.getToMilestoneById(milestoneId);
-		if(milestone.isPresent())
-			return milestoneMapper.milestoneToDto(milestone.get());
-		else return null;
+		Milestone milestone = milestoneService.getToMilestoneById(milestoneId);
+		return milestoneMapper.milestoneToDto(milestone);
 	}
 	
 	@PostMapping
@@ -66,11 +68,17 @@ public class MilestoneController {
 		return milestoneMapper.milestoneToDto(milestone);
 	}
 	
-	@PutMapping("/{milestoneId}/addAddress")
-	public MilestoneDto addAddressToMilestone(
-			@RequestBody AddressDto addressDto, 
-			@PathVariable long milestoneId) {
-		Milestone milestone = milestoneService.addAddressToMilestone(milestoneId, addressDto);
+	@PutMapping("/{milestoneId}/addAddress/{addressId}")
+	public MilestoneDto addAddressToMilestone(@PathVariable long milestoneId, @PathVariable long addressId) {
+		Milestone milestone = milestoneService.addAddressToMilestone(milestoneId, addressId);
+		return milestoneMapper.milestoneToDto(milestone);
+	}
+	
+	@PutMapping("/{milestoneId}/addSectionToMilestone/{sectionId}")
+	public MilestoneDto addSectionToMilestone(
+			@PathVariable long milestoneId,
+			@PathVariable long sectionId) {
+			Milestone milestone = milestoneService.addSectionToMilestone(milestoneId, sectionId);
 		return milestoneMapper.milestoneToDto(milestone);
 	}
 }

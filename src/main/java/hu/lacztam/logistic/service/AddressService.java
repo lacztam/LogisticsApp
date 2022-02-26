@@ -23,13 +23,16 @@ import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.AddressFilterDto;
 import hu.lacztam.logistic.mapper.AddressMapper;
 import hu.lacztam.logistic.model.Address;
+import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.repository.AddressRepository;
+import hu.lacztam.logistic.repository.MilestoneRepository;
 
 @Service
 public class AddressService {
 
 	@Autowired AddressRepository addressRepository;
 	@Autowired AddressMapper addressMapper;
+	@Autowired MilestoneService milestoneService;
 	
 	public List<Address> getAllAddresses(){
 		return addressRepository.findAll();
@@ -37,7 +40,8 @@ public class AddressService {
 	
 	@Transactional
 	public Address createAddress(Address address) {
-		return addressRepository.save(address);
+		Address saveAddress = addressRepository.save(address);
+		return saveAddress;
 	}
 	
 	@Transactional
@@ -47,12 +51,10 @@ public class AddressService {
 	}
 
 	public Optional<Address> findByIdOptional(Long id) {
-		if(id != null) {
-			Optional<Address> address = addressRepository.findById(id);
-			return address;
-		}else {
-			return null;
-		}
+		Optional<Address> address = null;
+		if(id != null) 
+			address = addressRepository.findById(id);
+		return address;			
 	}
 	
 	@Transactional
@@ -61,13 +63,32 @@ public class AddressService {
 	}
 	
 	@Transactional
-	public void deleteAddressById(long id) {
-		Optional<Address> address = addressRepository.findById(id);
-
-		if(address.isPresent()) 
-			addressRepository.deleteById(id);
+	public void deleteAddressById(long addressId) {
+		Address address 
+			= addressRepository.findById(addressId)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		
+		Milestone milestone = address.getMilestone();
+		if(milestone != null) {
+			milestone.setAddress(null);
+			milestoneService.saveMilestone(milestone);
+		}
+		addressRepository.deleteById(addressId);
 	}
 
+	@Transactional
+	public Address addMilestoneToAddress(long addressId, long milestoneId) {
+		Milestone milestone = milestoneService.findById(milestoneId);
+		
+		Address address = findById(addressId);
+		address.setMilestone(milestone);
+		if(milestone.getAddress() == null) {
+			milestone.setAddress(address);
+			milestoneService.saveMilestone(milestone);
+		}
+		return addressRepository.save(address);
+	}
+	
 	@Transactional
 	public Address modifyAddress(long addressId, AddressDto addressDto) {
 		if(addressDto == null)

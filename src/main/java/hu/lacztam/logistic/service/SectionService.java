@@ -10,6 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import hu.lacztam.logistic.dto.MilestoneDto;
+import hu.lacztam.logistic.dto.SectionDto;
+import hu.lacztam.logistic.mapper.SectionMapper;
+import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.repository.SectionRepository;
 
@@ -17,12 +21,25 @@ import hu.lacztam.logistic.repository.SectionRepository;
 public class SectionService {
 
 	@Autowired SectionRepository sectionRepository;
+	@Autowired SectionMapper sectionMapper;
+	@Autowired MilestoneService milestoneService;
 
 	@Transactional
-	public Section crateSection(Section section1) {
-		return sectionRepository.save(section1);
+	public Section crateNormalSection(Section normalSection) {
+		Optional<Section> section = sectionRepository.findById(normalSection.getSectionId());
+		if(section.isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		return sectionRepository.save(normalSection);
 	}
-	
+
+	@Transactional
+	public Section createSection(SectionDto sectionDto) {
+		Optional<Section> section = sectionRepository.findById(sectionDto.getSectionDtoId());
+		if(section.isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		
+		return sectionRepository.save(sectionMapper.dtoToSection(sectionDto));
+	}
 	@Transactional
 	public List<Section> getAllSections(){
 		return sectionRepository.findAll();
@@ -34,14 +51,10 @@ public class SectionService {
 	}
 	
 	@Transactional
-	public Section sectionById(long id) {
-		return sectionRepository.sectionById(id);
+	public Section findSectionById(long id) {
+		return sectionRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
-	
-//	@Transactional
-//	public Section sectionByMilestoneId(long id) {
-//		return sectionRepository.findByMilestoneId(id);
-//	}
 	
 	@Transactional
 	public Section sectionByFromMilestoneId(long milestoneId) {
@@ -62,16 +75,34 @@ public class SectionService {
 	}
 	
 	@Transactional
-	public Section saveSection(long sectionId) {
-		return sectionRepository.save(sectionById(sectionId));
-	}
-	
-	@Transactional
 	public Section sectionBySectionNumber(int sectionNumber) {
 		Optional<Section> section = sectionRepository.sectionByNumber(sectionNumber);
 		if(section.isPresent())
 			return section.get();
 		else
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	}
+	
+	@Transactional
+	public Section addToMilestone(long sectionId, long milestoneId) {
+		Section section = findSectionById(sectionId);
+		Milestone milestone = milestoneService.findById(milestoneId);
+		milestoneService.addSectionToMilestone(milestone.getMilestoneId(), section.getSectionId());
+		section.setToMilestone(milestone);
+		return saveSection(section);
+	}
+
+	@Transactional
+	public Section addFromMilestone(long sectionId, long milestoneId) {
+		Section section = findSectionById(sectionId);
+		Milestone milestone = milestoneService.findById(milestoneId);
+		milestoneService.addSectionToMilestone(milestone.getMilestoneId(), section.getSectionId());
+		section.setFromMilestone(milestone);
+		return saveSection(section);
+	}	
+	
+	@Transactional
+	public Section saveSection(Section section) {
+		return sectionRepository.save(section);
 	}
 }

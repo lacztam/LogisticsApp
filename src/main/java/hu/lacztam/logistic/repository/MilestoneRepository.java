@@ -13,8 +13,12 @@ import hu.lacztam.logistic.model.Milestone;
 
 public interface MilestoneRepository extends JpaRepository<Milestone, Long>, JpaSpecificationExecutor<Milestone> {
 	
-	@Query("SELECT m FROM Milestone m JOIN FETCH m.address")
-	public List<Milestone> getAllMileStonesWithAddress();
+	@Query("SELECT m FROM Milestone m")
+	public List<Milestone> getAllMileStones();
+	
+	@Query("SELECT m FROM Milestone m "
+			+ "WHERE m.address.addressId = :addressId")
+	public Milestone getMilestoneFromAddress(long addressId);
 	
 	@Query("SELECT s.fromMilestone FROM Section s "
 			+ "WHERE s.fromMilestone.milestoneId = :milestoneId ")

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,5 +49,19 @@ public class TransportController {
 		
 		return transportDto;
 	}
+
+	@PostMapping
+	public TransportPlanDto createTransportPlan(@RequestBody TransportPlanDto transPlanDto) {
+		TransportPlan transport = transportPlanService.createTransportPlan(transPlanDto);
+		return transportMapper.transportToDto(transport);
+	}
 	
+	@PutMapping("/{transportId}/addSection/{sectionId}")
+	public TransportPlanDto addSection(
+			@PathVariable long transportId, 
+			@PathVariable long sectionId) {
+		TransportPlan transportPlan = transportPlanService.addSection(transportId, sectionId);
+		
+		return transportMapper.transportToDto(transportPlan);
+	}
 }

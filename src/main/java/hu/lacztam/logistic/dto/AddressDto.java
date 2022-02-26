@@ -41,7 +41,7 @@ public class AddressDto {
 	private double longitude;
 	
 	@OneToOne
-	MilestoneDto milestoneDtos;
+	MilestoneDto milestoneDto;
 	
 	public AddressDto() {
 	}
@@ -110,18 +110,18 @@ public class AddressDto {
 		this.longitude = longitude;
 	}
 
-	public MilestoneDto getMilestoneDtos() {
-		return milestoneDtos;
+	public MilestoneDto getMilestoneDto() {
+		return milestoneDto;
 	}
 
-	public void setMilestoneDtos(MilestoneDto milestoneDtos) {
-		this.milestoneDtos = milestoneDtos;
+	public void setMilestoneDto(MilestoneDto milestoneDto) {
+		this.milestoneDto = milestoneDto;
 	}
 
 	@Override
 	public String toString() {
-		return "\n\nAddressDto\n[addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
+		return "AddressDto [addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
 				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", milestoneDtos=" + milestoneDtos + "]";
+				+ ", longitude=" + longitude + ", milestoneDto=" + milestoneDto + "]";
 	}
 }

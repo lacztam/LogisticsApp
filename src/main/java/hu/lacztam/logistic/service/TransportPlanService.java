@@ -13,6 +13,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import hu.lacztam.logistic.config.ConfigProperties;
 import hu.lacztam.logistic.dto.TransportDelayDto;
+import hu.lacztam.logistic.dto.TransportPlanDto;
+import hu.lacztam.logistic.mapper.TransportMapper;
 import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
@@ -26,6 +28,7 @@ public class TransportPlanService {
 	@Autowired MilestoneService milestoneService;
 	@Autowired SectionService sectionService;
 	@Autowired ConfigProperties config;
+	@Autowired TransportMapper transportMapper;
 
 	@Transactional
 	public TransportPlan addDelay(long transportId, TransportDelayDto transportDelayDto) {
@@ -33,7 +36,7 @@ public class TransportPlanService {
 		Long delayInMinutes = transportDelayDto.getDelayInMinutes();
 		
 		TransportPlan transport = getWithSectionsById(transportId);
-		checkingExistingMilestone(transport, milestoneId);
+		checkingExistingMilestones(transport, milestoneId);
 		
 		Optional<Section> sectionWithFromMilestone 
 			= transport.getSections()
@@ -91,7 +94,7 @@ public class TransportPlanService {
 		return income;
 	}
 	
-	private void checkingExistingMilestone(TransportPlan transportPlan, long milestoneId) {
+	private void checkingExistingMilestones(TransportPlan transportPlan, long milestoneId) {
 		boolean isPresentFromMilestone = isPresentFromMilestone(transportPlan, milestoneId);
 		boolean isPresentToMilestone = isPresentToMilestone(transportPlan, milestoneId);
 		
@@ -112,7 +115,7 @@ public class TransportPlanService {
 	}
 	
 	@Transactional
-	public TransportPlan crateTransportPlan(TransportPlan transportPlan) {
+	public TransportPlan saveTransportPlan(TransportPlan transportPlan) {
 		Optional<TransportPlan> transportPlanOptional = transportRepository.findById(transportPlan.getTransportId());
 		if(transportPlanOptional.isPresent())
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
@@ -132,5 +135,28 @@ public class TransportPlanService {
 			return transport;
 		else
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	}
+
+	@Transactional
+	public TransportPlan createTransportPlan(TransportPlanDto transPlanDto) {
+		Optional<TransportPlan> transport 
+			= transportRepository.findById(transPlanDto.getTransportId());
+		if(transport.isPresent())
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
+		return transportRepository.save(transportMapper.dtoToTransport(transPlanDto));
+	}
+
+	@Transactional
+	public TransportPlan addSection(long transportId, long sectionId) {
+		TransportPlan transport 
+			= transportRepository.findById(transportId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		
+		Section section = sectionService.findSectionById(sectionId);
+		section.setTransportPlan(transport);
+		sectionService.saveSection(section);
+		
+		transport.addSection(section);
+		
+		return transportRepository.save(transport);
 	}
 }
