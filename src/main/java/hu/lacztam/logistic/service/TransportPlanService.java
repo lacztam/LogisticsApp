@@ -2,7 +2,6 @@ package hu.lacztam.logistic.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -15,10 +14,8 @@ import hu.lacztam.logistic.config.ConfigProperties;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.dto.TransportPlanDto;
 import hu.lacztam.logistic.mapper.TransportMapper;
-import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
-import hu.lacztam.logistic.repository.MilestoneRepository;
 import hu.lacztam.logistic.repository.TransportPlanRepository;
 
 @Service
@@ -30,6 +27,9 @@ public class TransportPlanService {
 	@Autowired ConfigProperties config;
 	@Autowired TransportMapper transportMapper;
 
+	
+	/*----------------------------Vizsgafeladat-részeihez-tartozó-függvények----------------------------*/
+	
 	@Transactional
 	public TransportPlan addDelay(long transportId, TransportDelayDto transportDelayDto) {
 		Long milestoneId = transportDelayDto.getMilestoneDtoId();
@@ -113,6 +113,8 @@ public class TransportPlanService {
 			.stream()
 			.anyMatch(m -> m.getToMilestone().getMilestoneId() == milestoneId);
 	}
+	
+	/*----------------------------Egyéb-függvények----------------------------*/
 	
 	@Transactional
 	public TransportPlan saveTransportPlan(TransportPlan transportPlan) {

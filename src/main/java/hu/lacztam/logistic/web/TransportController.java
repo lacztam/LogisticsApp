@@ -26,6 +26,22 @@ public class TransportController {
 	@Autowired TransportMapper transportMapper;
 	@Autowired MilestoneService milestoneService;
 	
+	/*----------------------------Záróvizsga-feladataihoz-tartozó-végpontok----------------------------*/
+	
+	@PostMapping("/{transportId}/delay")
+	public TransportPlanDto addDelay(
+			@PathVariable long transportId,
+			@RequestBody TransportDelayDto transportDelayDto) {
+		
+		TransportPlanDto transportDto 
+				= transportMapper.transportToDto(transportPlanService.addDelay(transportId, transportDelayDto));
+		
+		return transportDto;
+	}
+	
+	
+	/*----------------------------Egyéb-végpontok----------------------------*/
+	
 	@GetMapping
 	public List<TransportPlanDto> getAll(){
 		List<TransportPlan> transports = transportPlanService.getAllWithSections();
@@ -37,17 +53,6 @@ public class TransportController {
 	@GetMapping("/{id}")
 	public TransportPlanDto transportPlanDtoByQuery(@PathVariable long id) {
 		return transportMapper.transportToDto(transportPlanService.getWithSectionsById(id));
-	}
-	
-	@PostMapping("/{transportId}/delay")
-	public TransportPlanDto addDelay(
-			@PathVariable long transportId,
-			@RequestBody TransportDelayDto transportDelayDto) {
-		
-		TransportPlanDto transportDto 
-				= transportMapper.transportToDto(transportPlanService.addDelay(transportId, transportDelayDto));
-		
-		return transportDto;
 	}
 
 	@PostMapping

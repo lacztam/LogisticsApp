@@ -3,9 +3,7 @@ package hu.lacztam.logistic.service;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,7 +22,6 @@ import hu.lacztam.logistic.mapper.AddressMapper;
 import hu.lacztam.logistic.model.Address;
 import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.repository.AddressRepository;
-import hu.lacztam.logistic.repository.MilestoneRepository;
 
 @Service
 public class AddressService {
@@ -33,6 +29,9 @@ public class AddressService {
 	@Autowired AddressRepository addressRepository;
 	@Autowired AddressMapper addressMapper;
 	@Autowired MilestoneService milestoneService;
+	
+	
+	/*----------------------------Vizsgafeladat-részeihez-tartozó-függvények----------------------------*/
 	
 	public List<Address> getAllAddresses(){
 		return addressRepository.findAll();
@@ -49,13 +48,6 @@ public class AddressService {
 		return addressRepository.findById(id)
 					.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
-
-	public Optional<Address> findByIdOptional(Long id) {
-		Optional<Address> address = null;
-		if(id != null) 
-			address = addressRepository.findById(id);
-		return address;			
-	}
 	
 	@Transactional
 	public Address saveAddress(Address address) {
@@ -64,9 +56,8 @@ public class AddressService {
 	
 	@Transactional
 	public void deleteAddressById(long addressId) {
-		Address address 
-			= addressRepository.findById(addressId)
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+		Address address = findById(addressId);
 		
 		Milestone milestone = address.getMilestone();
 		if(milestone != null) {
@@ -75,41 +66,10 @@ public class AddressService {
 		}
 		addressRepository.deleteById(addressId);
 	}
-
-	@Transactional
-	public Address addMilestoneToAddress(long addressId, long milestoneId) {
-		Milestone milestone = milestoneService.findById(milestoneId);
-		
-		Address address = findById(addressId);
-		address.setMilestone(milestone);
-		if(milestone.getAddress() == null) {
-			milestone.setAddress(address);
-			milestoneService.saveMilestone(milestone);
-		}
-		return addressRepository.save(address);
-	}
 	
 	@Transactional
-	public Address modifyAddress(long addressId, AddressDto addressDto) {
-		if(addressDto == null)
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		if(addressDto.getAddressId() != null) {
-			if(addressDto.getAddressId() != addressId)
-				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-		
-		addressDto.setAddressId(addressId);
-		
-		Optional<Address> optionalAddress = addressRepository.findById(addressDto.getAddressId());
-		
-		if(optionalAddress.isPresent()) 
-			return addressRepository.save(addressMapper.dtoToAddress(addressDto));
-		else 
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-	}
-
-	@Transactional
 	public Page<Address> searchAddresses(AddressFilterDto addressFilterDto, Pageable paging) {
+
 		if(addressFilterDto.getCountryISO() == null 
 			&& addressFilterDto.getCity() == null 
 			&& addressFilterDto.getStreet() == null 
@@ -150,4 +110,46 @@ public class AddressService {
 		
 		return addressPage;
 	}
+	
+	@Transactional
+	public Address modifyAddress(long addressId, AddressDto addressDto) {
+		
+		if(addressDto == null)
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		
+		if(addressDto.getAddressId() != null) {
+			if(addressDto.getAddressId() != addressId)
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
+		
+		addressDto.setAddressId(addressId);
+		
+		findById(addressDto.getAddressId());
+		
+		return addressRepository.save(addressMapper.dtoToAddress(addressDto));
+	}
+	
+
+	/*----------------------------Egyéb-függvények----------------------------*/
+	
+	@Transactional
+	public Address addMilestoneToAddress(long addressId, long milestoneId) {
+	
+		Milestone milestone = milestoneService.findById(milestoneId);
+		
+		Address address = findById(addressId);
+		address.setMilestone(milestone);
+		if(milestone.getAddress() == null) {
+			milestone.setAddress(address);
+			milestoneService.saveMilestone(milestone);
+		}
+		return addressRepository.save(address);
+	}
+	
+	@Transactional
+	public Optional<Address> findByIdOptional(Long id) {
+		Optional<Address> address = addressRepository.findById(id);
+		return address;			
+	}
+	
 }

@@ -6,13 +6,8 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Service;
 
-import hu.lacztam.logistic.model.Address;
-import hu.lacztam.logistic.model.Milestone;
-import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
-
 
 public interface TransportPlanRepository extends JpaRepository<TransportPlan, Long>, JpaSpecificationExecutor<TransportPlan> {
 

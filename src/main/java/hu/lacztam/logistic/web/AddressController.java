@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import hu.lacztam.logistic.config.ConfigProperties;
 import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.AddressFilterDto;
 import hu.lacztam.logistic.mapper.AddressMapper;
@@ -34,9 +33,22 @@ public class AddressController {
 	@Autowired AddressService addressService;
 	@Autowired AddressMapper addressMapper;
 	
+	
+	/*----------------------------Záróvizsga-feladataihoz-tartozó-végpontok----------------------------*/
+	
 	@GetMapping
 	public List<AddressDto> addresses(){
 		return addressMapper.addressesToDtos(addressService.getAllAddresses());
+	}
+	
+	@GetMapping("/{addressId}")
+	public AddressDto getAddressById(@PathVariable long addressId) {
+		return addressMapper.addressToDto(addressService.findById(addressId));
+	}
+	
+	@DeleteMapping("/{addressId}")
+	public void deleteAddress(@PathVariable long addressId){
+		addressService.deleteAddressById(addressId);
 	}
 	
 	@PostMapping
@@ -48,24 +60,6 @@ public class AddressController {
 				= addressService.createAddress(addressMapper.dtoToAddress(addressDto));
 		
 		return ResponseEntity.ok(address);
-	}
-	
-	@GetMapping("/{addressId}")
-	public Address getAddressById(@PathVariable long addressId) {
-		return addressService.findById(addressId);
-	}
-	
-	@DeleteMapping("/{addressId}")
-	public void deleteAddress(@PathVariable long addressId){
-		addressService.deleteAddressById(addressId);
-	}
-	
-	@PutMapping("/{addressId}")
-	public ResponseEntity<AddressDto> modifyAddress(
-			@PathVariable long addressId, 
-			@RequestBody @Valid AddressDto addressDto) {
-		Address modifiedadd = addressService.modifyAddress(addressId, addressDto);		
-		return ResponseEntity.ok(addressMapper.addressToDto(modifiedadd));
 	}
 	
 	@PostMapping("/search")
@@ -83,6 +77,18 @@ public class AddressController {
 		
 		return addressDtoPage;
 	}
+
+	
+	/*----------------------------Egyéb-végpontok----------------------------*/
+		
+	@PutMapping("/{addressId}")
+	public ResponseEntity<AddressDto> modifyAddress(
+			@PathVariable long addressId, 
+			@RequestBody @Valid AddressDto addressDto) {
+		Address modifiedadd = addressService.modifyAddress(addressId, addressDto);		
+		return ResponseEntity.ok(addressMapper.addressToDto(modifiedadd));
+	}
+
 	
 	@PutMapping("/{addressId}/addMilestone/{milestoneId}")
 	public AddressDto addMilestoneToAddress(

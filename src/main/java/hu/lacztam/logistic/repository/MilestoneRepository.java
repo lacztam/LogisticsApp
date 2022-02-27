@@ -3,8 +3,6 @@ package hu.lacztam.logistic.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.validator.constraints.CodePointLength;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

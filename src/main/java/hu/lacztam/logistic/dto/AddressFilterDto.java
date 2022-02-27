@@ -1,6 +1,5 @@
 package hu.lacztam.logistic.dto;
 
-
 public class AddressFilterDto {
 	
 	String countryISO;

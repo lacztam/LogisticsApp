@@ -16,6 +16,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import hu.lacztam.logistic.security.JwtAuthFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,8 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsService userDetailsService;
 	
-//	@Autowired
-//	JwtAuthFilter jwtAuthFilter;
+	@Autowired
+	JwtAuthFilter jwtAuthFilter;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -57,14 +60,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/api/addresses/**").hasAuthority("AddressManager")
 			.antMatchers(HttpMethod.PUT, "/api/addresses/**").hasAuthority("AddressManager")
 			.antMatchers(HttpMethod.DELETE, "/api/addresses/**").hasAuthority("AddressManager")
-			.antMatchers(HttpMethod.POST, "/api/{transportId}/delay/**").hasAuthority("TransportManager")
+			.antMatchers(HttpMethod.POST, "/api/transportPlans/{transportId}/delay/**").hasAuthority("TransportManager")
 			.antMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
 			.antMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
 			.antMatchers(HttpMethod.GET, "/api/**").hasAuthority("ADMIN")
 			.antMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
 			.anyRequest().authenticated();
 		
-//		http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+		http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+	}
+	
+	@Bean
+	public AuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+		return daoAuthenticationProvider;
+	}
+
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
 	}
 	
 }

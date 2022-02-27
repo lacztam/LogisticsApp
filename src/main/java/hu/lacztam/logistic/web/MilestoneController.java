@@ -1,7 +1,6 @@
 package hu.lacztam.logistic.web;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.lacztam.logistic.config.ConfigProperties;
-import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.MilestoneDto;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.mapper.MilestoneMapper;
@@ -27,6 +25,7 @@ public class MilestoneController {
 	@Autowired MilestoneService milestoneService;
 	@Autowired MilestoneMapper milestoneMapper;
 	@Autowired ConfigProperties configProperties;
+	
 	
 	@GetMapping
 	public List<MilestoneDto> getAllMilestones(){

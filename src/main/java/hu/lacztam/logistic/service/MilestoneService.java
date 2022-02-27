@@ -10,14 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import hu.lacztam.logistic.dto.AddressDto;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.mapper.AddressMapper;
 import hu.lacztam.logistic.model.Address;
 import hu.lacztam.logistic.model.Milestone;
 import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.repository.MilestoneRepository;
-import hu.lacztam.logistic.repository.SectionRepository;
 
 @Service
 public class MilestoneService {
@@ -91,12 +89,10 @@ public class MilestoneService {
 	public Milestone addAddressToMilestone(long milestoneId, long addressId) {
 		Milestone milestone = findById(milestoneId);
 
-		Optional<Address> address = addressService.findByIdOptional(addressId);
-		if(address.isEmpty())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		Address address = addressService.findById(addressId);
 		
-		addressService.addMilestoneToAddress(address.get().getAddressId(), milestoneId);
-		milestone.setAddress(address.get());
+		addressService.addMilestoneToAddress(address.getAddressId(), milestoneId);
+		milestone.setAddress(address);
 		return saveMilestone(milestone);
 	}
 	

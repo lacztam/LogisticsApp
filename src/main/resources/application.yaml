@@ -27,4 +27,9 @@ logistic-app:
     percent1: 5
     percent2: 10 
     percent3: 20 
-
+  jwtTokenProperties:
+    expireMinute: 10
+    issuer: "LogisticApp"
+    auth: "auth"
+    algorithmSpecification: "HMAC256"
+    algorithmSpecificationArgument: "mysecret"

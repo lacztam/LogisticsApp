@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import hu.lacztam.logistic.dto.MilestoneDto;
 import hu.lacztam.logistic.dto.SectionDto;
 import hu.lacztam.logistic.mapper.SectionMapper;
 import hu.lacztam.logistic.model.Milestone;

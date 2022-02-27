@@ -1,21 +1,9 @@
 package hu.lacztam.logistic.dto;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import hu.lacztam.logistic.config.ConfigProperties;
 
 @NotNull
 public class TransportPlanDto {
