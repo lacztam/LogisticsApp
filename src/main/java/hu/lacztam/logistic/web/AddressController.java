@@ -52,14 +52,15 @@ public class AddressController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Address> createAddress(@RequestBody @Valid AddressDto addressDto){
+	public ResponseEntity<AddressDto> createAddress(@RequestBody @Valid AddressDto addressDto){
+		
 		if(addressDto.getAddressId() != null || addressDto == null)
 			return ResponseEntity.badRequest().build();
 		
 		Address address 
 				= addressService.createAddress(addressMapper.dtoToAddress(addressDto));
 		
-		return ResponseEntity.ok(address);
+		return ResponseEntity.ok(addressMapper.addressToDto(address));
 	}
 	
 	@PostMapping("/search")
@@ -78,9 +79,6 @@ public class AddressController {
 		return addressDtoPage;
 	}
 
-	
-	/*----------------------------Egyéb-végpontok----------------------------*/
-		
 	@PutMapping("/{addressId}")
 	public ResponseEntity<AddressDto> modifyAddress(
 			@PathVariable long addressId, 
@@ -88,7 +86,9 @@ public class AddressController {
 		Address modifiedadd = addressService.modifyAddress(addressId, addressDto);		
 		return ResponseEntity.ok(addressMapper.addressToDto(modifiedadd));
 	}
-
+	
+	
+	/*----------------------------Egyéb-végpontok----------------------------*/
 	
 	@PutMapping("/{addressId}/addMilestone/{milestoneId}")
 	public AddressDto addMilestoneToAddress(
@@ -97,5 +97,15 @@ public class AddressController {
 		
 		return addressMapper.addressToDto
 				(addressService.addMilestoneToAddress(addressId, milestoneId));
-	}	
+	}
+	
+	@GetMapping("/{addressId}/getAddresswithTransport")
+	public AddressDto getAddressWithMilestone(@PathVariable long addressId) {
+		
+		Address address = addressService.findAddressWithMilestone(addressId);
+		
+		return addressMapper.addressWithMilestoneToDto(address);
+	}
+		
+	
 }

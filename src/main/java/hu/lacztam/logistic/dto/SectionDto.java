@@ -59,4 +59,10 @@ public class SectionDto {
 		this.transportPlanDto = transportPlanDto;
 	}
 
+	@Override
+	public String toString() {
+		return "SectionDto [sectionDtoId=" + sectionDtoId + ", fromMilestoneDto=" + fromMilestoneDto
+				+ ", toMilestoneDto=" + toMilestoneDto + ", number=" + number + ", transportPlanDto=" + transportPlanDto
+				+ "]";
+	}
 }

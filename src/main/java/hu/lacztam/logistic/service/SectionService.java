@@ -45,8 +45,8 @@ public class SectionService {
 	}
 	
 	@Transactional
-	public List<Section> getEverySectionWithMilestones(){
-		return sectionRepository.getEverySectionsWithMilestones();
+	public List<Section> getEverySectionWithQuery(){
+		return sectionRepository.getEverySectionsQuery();
 	}
 	
 	@Transactional
@@ -57,29 +57,20 @@ public class SectionService {
 	
 	@Transactional
 	public Section sectionByFromMilestoneId(long milestoneId) {
-		Optional<Section> section = sectionRepository.sectionByFromMilestone(milestoneId);
-		if(section.isPresent())
-			return section.get();
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		return sectionRepository.sectionByFromMilestone(milestoneId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 	
 	@Transactional
 	public Section sectionByToMilestoneId(long milestoneId) {
-		Optional<Section> section =  sectionRepository.sectionByToMilestone(milestoneId);
-		if(section.isPresent())
-			return section.get();
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		return sectionRepository.sectionByToMilestone(milestoneId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 	
 	@Transactional
 	public Section sectionBySectionNumber(int sectionNumber) {
-		Optional<Section> section = sectionRepository.sectionByNumber(sectionNumber);
-		if(section.isPresent())
-			return section.get();
-		else
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		return sectionRepository.sectionByNumber(sectionNumber)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 	}
 	
 	@Transactional

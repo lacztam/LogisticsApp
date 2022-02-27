@@ -14,7 +14,6 @@ public class AddressDto {
 	
 	@NotNull
 	@NotEmpty
-	@Size(min=2, max=2)
 	private String countryISO;
 	
 	@NotEmpty
@@ -31,8 +30,8 @@ public class AddressDto {
 	@NotNull
 	private Integer houseNumber;
 	
-	private double latitude;
-	private double longitude;
+	private Double latitude;
+	private Double longitude;
 	
 	@OneToOne
 	MilestoneDto milestoneDto;
@@ -112,10 +111,4 @@ public class AddressDto {
 		this.milestoneDto = milestoneDto;
 	}
 
-	@Override
-	public String toString() {
-		return "AddressDto [addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
-				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", milestoneDto=" + milestoneDto + "]";
-	}
 }

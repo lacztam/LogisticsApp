@@ -12,7 +12,7 @@ import hu.lacztam.logistic.model.Section;
 public interface SectionRepository extends JpaRepository<Section, Long>, JpaSpecificationExecutor<Section> {
 
 	@Query("SELECT s FROM Section s")
-	public List<Section> getEverySectionsWithMilestones();
+	public List<Section> getEverySectionsQuery();
 	
 	@Query("SELECT s FROM Section s WHERE s.sectionId = :id")
 	public Section sectionById(long id);

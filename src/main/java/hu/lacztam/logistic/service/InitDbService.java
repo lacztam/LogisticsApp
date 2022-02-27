@@ -30,13 +30,13 @@ public class InitDbService {
 		address1 = addressService.createAddress(address1);
 		
 		Address address2 = new Address();
-		address2.setCity("Budapest");
-		address2.setStreet("Parlament utca");
-		address2.setHouseNumber(123);
-		address2.setCountryISO("HU");
-		address2.setZipCode(1105);
-		address2.setLatitude(73.123456);
-		address2.setLongitude(99.678910);
+		address2.setCity("Limoges");
+		address2.setStreet("Rue Albert Samain");
+		address2.setHouseNumber(55);
+		address2.setCountryISO("FR");
+		address2.setZipCode(87100);
+		address2.setLatitude(45.844871);
+		address2.setLongitude(1.2340220);
 		address2 = addressService.createAddress(address2);
 		
 		Address address3 = new Address();

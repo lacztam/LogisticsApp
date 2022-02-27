@@ -11,9 +11,9 @@ import hu.lacztam.logistic.model.Milestone;
 @Mapper(componentModel = "spring")
 public interface MilestoneMapper {
 
-	@Mapping(target = "addressDto", source = "address")
 	@Mapping(target = "sectionDto", ignore = true)
 	@Mapping(target = "addressDto.milestoneDto", ignore = true)
+	@Mapping(target = "addressDto", source = "address")
 	MilestoneDto milestoneToDto(Milestone milestone);
 	
 	@Mapping(target = "address", ignore = true)

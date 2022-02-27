@@ -20,5 +20,4 @@ public class LogisticApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 		initDbService.initDb();
 	}
-
 }

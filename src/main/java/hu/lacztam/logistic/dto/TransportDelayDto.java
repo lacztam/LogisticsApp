@@ -15,7 +15,6 @@ public class TransportDelayDto {
 	Long delayInMinutes;
 
 	public TransportDelayDto() {
-		super();
 	}
 
 	public Long getMilestoneDtoId() {

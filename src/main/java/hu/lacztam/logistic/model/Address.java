@@ -108,10 +108,4 @@ public class Address {
 		this.milestone = milestone;
 	}
 
-	@Override
-	public String toString() {
-		return "Address [addressId=" + addressId + ", countryISO=" + countryISO + ", city=" + city + ", street="
-				+ street + ", zipCode=" + zipCode + ", houseNumber=" + houseNumber + ", latitude=" + latitude
-				+ ", longitude=" + longitude + ", milestone=" + milestone + "]";
-	}
 }

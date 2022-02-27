@@ -57,14 +57,17 @@ public class AddressService {
 	@Transactional
 	public void deleteAddressById(long addressId) {
 
-		Address address = findById(addressId);
-		
-		Milestone milestone = address.getMilestone();
-		if(milestone != null) {
-			milestone.setAddress(null);
-			milestoneService.saveMilestone(milestone);
+		Optional<Address> address = findByIdOptional(addressId);
+		if(address.isPresent()) {
+			Milestone milestone = address.get().getMilestone();
+			
+			if(milestone != null) {
+				milestone.setAddress(null);
+				milestoneService.saveMilestone(milestone);
+			}
+			
+			addressRepository.deleteById(addressId);
 		}
-		addressRepository.deleteById(addressId);
 	}
 	
 	@Transactional
@@ -150,6 +153,16 @@ public class AddressService {
 	public Optional<Address> findByIdOptional(Long id) {
 		Optional<Address> address = addressRepository.findById(id);
 		return address;			
+	}
+	
+	@Transactional
+	public Address findAddressWithMilestone(long addressId) {
+		Address address = addressRepository.getAddressWithMilestoneByAddressId(addressId);
+		System.out.println("\n\n address with milestone: " + address.getMilestone().getAddress().getCity());
+		if(address.getMilestone() == null)
+			return null;
+		else 
+			return address;
 	}
 	
 }

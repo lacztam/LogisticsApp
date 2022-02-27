@@ -28,9 +28,9 @@ public class SectionController {
 		return sectionMapper.sectionsToDtos(sectionService.getAllSections());
 	}
 	
-	@GetMapping("/withMilestones")
-	public List<SectionDto> getAllSectionsWithMilestones(){
-		return sectionMapper.sectionsToDtos(sectionService.getEverySectionWithMilestones());
+	@GetMapping("/withQuery")
+	public List<SectionDto> getAllSectionsWithQuery(){
+		return sectionMapper.sectionsToDtos(sectionService.getEverySectionWithQuery());
 	}
 	
 	@GetMapping("/withMilestones/{id}")

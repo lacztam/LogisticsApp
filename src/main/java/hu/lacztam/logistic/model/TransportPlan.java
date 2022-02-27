@@ -53,9 +53,4 @@ public class TransportPlan {
 		this.sections = sections;
 	}
 	
-	@Override
-	public String toString() {
-		return "\n\nTransportPlan\n[transportId=" + transportId + ", income=" + income + ", sections="
-				+ sections + "]";
-	}
 }

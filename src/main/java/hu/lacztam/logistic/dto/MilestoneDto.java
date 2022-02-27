@@ -53,9 +53,4 @@ public class MilestoneDto {
 		this.sectionDto = sectionDto;
 	}
 
-	@Override
-	public String toString() {
-		return "\n\nMilestoneDto\n[milestoneId=" + milestoneId + ", addressDto=" + addressDto + ", plannedTime="
-				+ plannedTime + ", sectionDto=" + sectionDto + "]";
-	}
 }

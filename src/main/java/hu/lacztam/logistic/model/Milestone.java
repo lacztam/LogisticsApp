@@ -63,9 +63,4 @@ public class Milestone {
 		this.plannedTime = plannedTime;
 	}
 
-	@Override
-	public String toString() {
-		return "\n\nMilestone\n[milestoneId=" + milestoneId + ", address=" + address + ", section=" + section
-				+ ", plannedTime=" + plannedTime + "]";
-	}
 }

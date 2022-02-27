@@ -46,8 +46,4 @@ public class LogisticAppUser extends User{
 		this.user = user;
 	}
 
-	@Override
-	public String toString() {
-		return "LogisticAppUser [username=" + username + ", password=" + password + ", user=" + user + "]";
-	}
 }

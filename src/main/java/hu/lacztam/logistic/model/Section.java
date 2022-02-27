@@ -66,9 +66,4 @@ public class Section {
 		this.transportPlan = transportPlan;
 	}
 
-	@Override
-	public String toString() {
-		return "Section [sectionId=" + sectionId + ", fromMilestone=" + fromMilestone + ", toMilestone=" + toMilestone
-				+ ", number=" + number + ", transportPlan=" + transportPlan + "]";
-	}
 }

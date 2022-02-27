@@ -33,11 +33,13 @@ private JwtTokenProperties jwtTokenProperties = new JwtTokenProperties();
 		private String algorithmSpecificationArgument;
 
 		public Date getExpireTime() {
-			this.expireTime = new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(this.expireMinute));
+			this.expireTime 
+				= new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(this.expireMinute));
 			return expireTime;
 		}
 		
 		public Algorithm getAlgorithm() {
+			
 			switch (getAlgorithmSpecification()) {
 			case "HMAC256":
 				this.algorithm = Algorithm.HMAC256("HMAC256");
@@ -49,11 +51,13 @@ private JwtTokenProperties jwtTokenProperties = new JwtTokenProperties();
 				this.algorithm = Algorithm.HMAC512("HMAC512");
 				break;
 			default:
-				throw new AlgorithmMismatchException("Unsupported algorithm: " + this.algorithmSpecificationArgument);
+				throw new AlgorithmMismatchException("Unsupported algorithm: " 
+										+ this.algorithmSpecificationArgument);
 			}
 				
 			return algorithm;
 		}
+		
 		public String getAlgorithmSpecification() {
 			return algorithmSpecification;
 		}
@@ -90,6 +94,14 @@ private JwtTokenProperties jwtTokenProperties = new JwtTokenProperties();
 		public void setAuth(String auth) {
 			this.auth = auth;
 		}
+
+		@Override
+		public String toString() {
+			return "JwtTokenProperties [auth=" + auth + ", issuer=" + issuer + ", expireTime=" + expireTime
+					+ ", expireMinute=" + expireMinute + ", algorithm=" + algorithm + ", algorithmSpecification="
+					+ algorithmSpecification + ", algorithmSpecificationArgument=" + algorithmSpecificationArgument
+					+ "]";
+		}
 	}
 	
 	private Penalty penalty = new Penalty();
@@ -117,6 +129,11 @@ private JwtTokenProperties jwtTokenProperties = new JwtTokenProperties();
 		public void setPercent3(double percent3) {
 			this.percent3 = percent3;
 		}
+		
+		@Override
+		public String toString() {
+			return "Penalty [percent1=" + percent1 + ", percent2=" + percent2 + ", percent3=" + percent3 + "]";
+		}
 	}
 
 	public Penalty getPenalty() {
@@ -129,8 +146,6 @@ private JwtTokenProperties jwtTokenProperties = new JwtTokenProperties();
 
 	@Override
 	public String toString() {
-		return "\n\nConfigProperties\n[penalty.getPercent1()=" + penalty.getPercent1() + 
-									", penalty.getPercent2()=" + penalty.getPercent2() +
-									", penalty.getPercent3()=" + penalty.getPercent3() + " ]";
+		return "ConfigProperties [jwtTokenProperties=" + jwtTokenProperties + ", penalty=" + penalty + "]";
 	}
 }

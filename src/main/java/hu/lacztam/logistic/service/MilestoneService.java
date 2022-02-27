@@ -27,9 +27,11 @@ public class MilestoneService {
 
 	@Transactional
 	public Milestone createMilestone(Milestone milestone) {
-		Optional<Milestone> checkIfArgumentMilestoneIsExist 
+		
+		Optional<Milestone> checkIfMilestoneIsExist 
 				= milestoneRepository.findById(milestone.getMilestoneId());
-		if(checkIfArgumentMilestoneIsExist.isPresent())
+		
+		if(checkIfMilestoneIsExist.isPresent())
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST); 
 		
 		return saveMilestone(milestone);
@@ -87,17 +89,19 @@ public class MilestoneService {
 	
 	@Transactional
 	public Milestone addAddressToMilestone(long milestoneId, long addressId) {
+		
 		Milestone milestone = findById(milestoneId);
-
 		Address address = addressService.findById(addressId);
 		
 		addressService.addMilestoneToAddress(address.getAddressId(), milestoneId);
 		milestone.setAddress(address);
+
 		return saveMilestone(milestone);
 	}
 	
 	@Transactional
 	public Milestone addSectionToMilestone(long milestoneId, long sectionId) {
+		
 		Milestone milestone = findById(milestoneId);
 		Section section = sectionService.findSectionById(sectionId);
 		
