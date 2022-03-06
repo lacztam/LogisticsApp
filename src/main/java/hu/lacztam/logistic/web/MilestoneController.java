@@ -80,4 +80,10 @@ public class MilestoneController {
 			Milestone milestone = milestoneService.addSectionToMilestone(milestoneId, sectionId);
 		return milestoneMapper.milestoneToDto(milestone);
 	}
+	
+	@GetMapping("/spec1/{id}")
+	public MilestoneDto spec1(@PathVariable long id) {
+		Milestone milestone = milestoneService.fromMilestoneByPreviousSectionToMilestone(id);
+		return milestoneMapper.milestoneToDto(milestone);
+	}
 }

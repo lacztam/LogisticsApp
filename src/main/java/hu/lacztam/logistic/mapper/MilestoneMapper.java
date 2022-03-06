@@ -2,6 +2,7 @@ package hu.lacztam.logistic.mapper;
 
 import java.util.List;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,13 +12,12 @@ import hu.lacztam.logistic.model.Milestone;
 @Mapper(componentModel = "spring")
 public interface MilestoneMapper {
 
-	@Mapping(target = "sectionDto", ignore = true)
+	@Mapping(target = "transportPlanDto", ignore = true)
 	@Mapping(target = "addressDto.milestoneDto", ignore = true)
 	@Mapping(target = "addressDto", source = "address")
 	MilestoneDto milestoneToDto(Milestone milestone);
 	
-	@Mapping(target = "address", ignore = true)
-	@Mapping(target = "section", ignore = true)
+	@InheritInverseConfiguration
 	Milestone dtoTomilestone(MilestoneDto dto);
 	
 	List<MilestoneDto> milestonesToDtos(List<Milestone> milestones);

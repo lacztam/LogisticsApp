@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 
@@ -18,9 +19,9 @@ public class Milestone {
 	
 	@OneToOne
 	private Address address;
-	
-	@ManyToOne(targetEntity = Section.class)
-	Section section;
+
+	@ManyToOne
+	TransportPlan transportPlan;
 	
 	private LocalDateTime plannedTime;
 
@@ -39,10 +40,6 @@ public class Milestone {
 		return address;
 	}
 
-	public Section getSection() {
-		return section;
-	}
-
 	public LocalDateTime getPlannedTime() {
 		return plannedTime;
 	}
@@ -55,12 +52,16 @@ public class Milestone {
 		this.address = address;
 	}
 
-	public void setSection(Section section) {
-		this.section = section;
-	}
-
 	public void setPlannedTime(LocalDateTime plannedTime) {
 		this.plannedTime = plannedTime;
+	}
+
+	public TransportPlan getTransportPlan() {
+		return transportPlan;
+	}
+
+	public void setTransportPlan(TransportPlan transportPlan) {
+		this.transportPlan = transportPlan;
 	}
 
 }

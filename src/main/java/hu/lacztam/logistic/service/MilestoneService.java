@@ -82,9 +82,33 @@ public class MilestoneService {
 	}
 	
 	@Transactional
+	public Optional<Milestone> getFromMilestoneByIdOptional(long milestoneId) {
+		return milestoneRepository.getFromMilestoneById(milestoneId);
+	}
+	
+	@Transactional
+	public Milestone getToMilestoneFromMilestone(Milestone fromMilestone) {
+		long fromMilestoneId = fromMilestone.getMilestoneId();
+		
+		return milestoneRepository.getToMilestoneByFromMilestoneId(fromMilestoneId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
+	
+	@Transactional
+	public Milestone fromMilestoneByPreviousSectionToMilestone(long toMilestoneId /*, long transportId*/) {
+		long id = milestoneRepository.getFromMilestoneByPreviousSectionToMilestone(toMilestoneId);
+		return findById(id);
+	}
+	
+	@Transactional
 	public Milestone getToMilestoneById(long milestoneId) {
 		return milestoneRepository.getToMilestoneById(milestoneId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+	}
+	
+	@Transactional
+	public Optional<Milestone> getToMilestoneByIdOptional(long milestoneId) {
+		return milestoneRepository.getToMilestoneById(milestoneId);
 	}
 	
 	@Transactional
@@ -108,12 +132,12 @@ public class MilestoneService {
 		if(section.getFromMilestone() == null) {
 			section.setFromMilestone(milestone);
 			section = sectionService.saveSection(section);
-			milestone.setSection(section);
+//			milestone.setSection(section);
 		}
 		else if(section.getToMilestone() == null) {
 			section.setToMilestone(milestone);
 			section = sectionService.saveSection(section);	
-			milestone.setSection(section);
+//			milestone.setSection(section);
 		}else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}

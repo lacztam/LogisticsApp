@@ -96,10 +96,20 @@ public class InitDbService {
 		
 		
 		TransportPlan transportPlan = new TransportPlan();
-		transportPlan.addSection(section1);
-		transportPlan.addSection(section2);
+		transportPlan.addMilestone(milestone1);
+		transportPlan.addMilestone(milestone2);
+		transportPlan.addMilestone(milestone3);
+		transportPlan.addMilestone(milestone4);
 		transportPlan.setIncome(100000);
 		transportPlan = transportPlanService.saveTransportPlan(transportPlan);
+		milestone1.setTransportPlan(transportPlan);
+		milestone2.setTransportPlan(transportPlan);
+		milestone3.setTransportPlan(transportPlan);
+		milestone4.setTransportPlan(transportPlan);
+		milestoneService.saveMilestone(milestone1);
+		milestoneService.saveMilestone(milestone2);
+		milestoneService.saveMilestone(milestone3);
+		milestoneService.saveMilestone(milestone4);
 		section1.setTransportPlan(transportPlan);
 		section2.setTransportPlan(transportPlan);
 		sectionService.saveSection(section1);

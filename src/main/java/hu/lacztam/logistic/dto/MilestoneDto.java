@@ -3,8 +3,11 @@ package hu.lacztam.logistic.dto;
 import java.time.LocalDateTime;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+
+import hu.lacztam.logistic.model.TransportPlan;
 
 
 @NotNull
@@ -16,7 +19,7 @@ public class MilestoneDto {
 	private LocalDateTime plannedTime;
 	
 	@ManyToOne
-	SectionDto sectionDto;
+	TransportPlanDto transportPlanDto;
 	
 	public MilestoneDto() {
 	}
@@ -33,10 +36,6 @@ public class MilestoneDto {
 		return plannedTime;
 	}
 
-	public SectionDto getSectionDto() {
-		return sectionDto;
-	}
-
 	public void setMilestoneId(long milestoneId) {
 		this.milestoneId = milestoneId;
 	}
@@ -49,8 +48,12 @@ public class MilestoneDto {
 		this.plannedTime = plannedTime;
 	}
 
-	public void setSectionDto(SectionDto sectionDto) {
-		this.sectionDto = sectionDto;
+	public TransportPlanDto getTransportPlanDto() {
+		return transportPlanDto;
+	}
+
+	public void setTransportPlanDto(TransportPlanDto transportPlanDto) {
+		this.transportPlanDto = transportPlanDto;
 	}
 
 }

@@ -3,7 +3,6 @@ spring:
     active: "dev"
   main:
     allow-circular-references: true 
-    
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss

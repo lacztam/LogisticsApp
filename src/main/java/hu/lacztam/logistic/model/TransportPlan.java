@@ -15,18 +15,22 @@ public class TransportPlan {
 	@GeneratedValue
 	private long transportId;
 	private long income;
+
+	@OneToMany(mappedBy = "transportPlan")
+	List<Section> sections;
 	
-	@OneToMany
-	private List<Section> sections;
+	@OneToMany(mappedBy = "transportPlan")
+	List<Milestone> milestones;
 
 	public TransportPlan() {
 	}
 
-	public void addSection(Section section) {
-		if(this.sections == null)
-			this.sections = new ArrayList<>();
-		sections.add(section);
-		section.setTransportPlan(this);
+	public void addMilestone(Milestone milestone) {
+		if(this.milestones == null) 
+			this.milestones = new ArrayList<>();
+		
+		this.milestones.add(milestone);
+		milestone.setTransportPlan(this);
 	}
 	
 	public long getTransportId() {
@@ -37,10 +41,6 @@ public class TransportPlan {
 		return income;
 	}
 
-	public List<Section> getSections() {
-		return sections;
-	}
-
 	public void setTransportId(long transportId) {
 		this.transportId = transportId;
 	}
@@ -49,8 +49,28 @@ public class TransportPlan {
 		this.income = income;
 	}
 
+	public List<Milestone> getMilestones() {
+		return milestones;
+	}
+
+	public void setMilestones(List<Milestone> milestones) {
+		this.milestones = milestones;
+	}
+
+	public List<Section> getSections() {
+		return sections;
+	}
+
 	public void setSections(List<Section> sections) {
 		this.sections = sections;
 	}
-	
+
+	public void addSection(Section section) {
+		if(this.sections == null)
+			this.sections = new ArrayList<>();
+		sections.add(section);
+		section.setTransportPlan(this);
+		
+	}
+
 }

@@ -1,4 +1,4 @@
-package hu.lacztam.logistic.repository;
+ package hu.lacztam.logistic.repository;
 
 import java.util.List;
 
@@ -23,8 +23,7 @@ public interface TransportPlanRepository extends JpaRepository<TransportPlan, Lo
 	@EntityGraph(attributePaths = 
 		{ "sections", "sections.fromMilestone", "sections.toMilestone",
 			"sections.fromMilestone.address", "sections.toMilestone.address"})
-	@Query(		"SELECT t FROM TransportPlan t "
-			+ 	"JOIN FETCH t.sections "
+	@Query("SELECT t FROM TransportPlan t JOIN FETCH t.sections "
 			+ 	"WHERE t.transportId = :id")
 	TransportPlan getTransportPlanWithSectionsById(long id);
 }

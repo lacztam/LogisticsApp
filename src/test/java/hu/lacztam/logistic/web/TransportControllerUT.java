@@ -10,14 +10,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
 import hu.lacztam.logistic.config.ConfigProperties;
 import hu.lacztam.logistic.dto.TransportDelayDto;
 import hu.lacztam.logistic.dto.TransportPlanDto;
-import hu.lacztam.logistic.model.Address;
 import hu.lacztam.logistic.model.Milestone;
-import hu.lacztam.logistic.model.Section;
 import hu.lacztam.logistic.model.TransportPlan;
 import hu.lacztam.logistic.service.AddressService;
 import hu.lacztam.logistic.service.InitDbService;
