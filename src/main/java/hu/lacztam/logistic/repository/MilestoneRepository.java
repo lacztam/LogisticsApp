@@ -43,15 +43,15 @@ public interface MilestoneRepository extends JpaRepository<Milestone, Long>, Jpa
 //	public Optional<Milestone> getFromMilestoneByPreviousSectionToMilestone(long toMilestoneId, long transportId);
 
 
-	@Query(value = "select s.from_milestone_milestone_id "
-			+ "from transport_plan t "
-			+ "left join section s on s.transport_plan_transport_id = t.transport_id "
-			+ "where s.number IN "
+	@Query(value = "SELECT s.from_milestone_milestone_id "
+			+ "FROM transport_plan t "
+			+ "LEFT join section s on s.transport_plan_transport_id = t.transport_id "
+			+ "WHERE s.number IN "
 			+ "	( "
-			+ "	select st.number + 1 "
-			+ "		from section st "
-			+ "		where to_milestone_milestone_id = :toMilestoneId "
-			+ " 	"
+			+ "	SELECT st.number + 1 "
+			+ "		FROM section st "
+			+ "		WHERE to_milestone_milestone_id = :toMilestoneId "
+			+ " 	AND t.transport_id = :transportId "
 			+ "	) ", nativeQuery = true)
-	public long getFromMilestoneByPreviousSectionToMilestone(long toMilestoneId);
+	public long getFromMilestoneByPreviousSectionToMilestone(long toMilestoneId, long transportId);
 }

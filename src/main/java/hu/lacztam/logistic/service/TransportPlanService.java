@@ -130,8 +130,11 @@ public class TransportPlanService {
 		}else if(fromMilestone.isEmpty()) {
 			
 			Milestone previousSectionToMilestone = toMilestone.get();
+			
 			Milestone nextSectionFromMilestone 
-				= milestoneService.fromMilestoneByPreviousSectionToMilestone(previousSectionToMilestone.getMilestoneId());
+				= milestoneService.fromMilestoneByPreviousSectionToMilestone(
+						previousSectionToMilestone.getMilestoneId(), transport.getTransportId());
+			
 			nextSectionFromMilestone.addDelay(delayInMinutes);
 			
 			milestoneService.saveMilestone(nextSectionFromMilestone);

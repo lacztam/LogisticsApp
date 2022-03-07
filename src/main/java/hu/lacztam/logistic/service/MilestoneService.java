@@ -95,8 +95,8 @@ public class MilestoneService {
 	}
 	
 	@Transactional
-	public Milestone fromMilestoneByPreviousSectionToMilestone(long toMilestoneId /*, long transportId*/) {
-		long id = milestoneRepository.getFromMilestoneByPreviousSectionToMilestone(toMilestoneId);
+	public Milestone fromMilestoneByPreviousSectionToMilestone(long toMilestoneId, long transportId) {
+		long id = milestoneRepository.getFromMilestoneByPreviousSectionToMilestone(toMilestoneId, transportId);
 		return findById(id);
 	}
 	

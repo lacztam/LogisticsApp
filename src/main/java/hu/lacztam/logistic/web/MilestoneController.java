@@ -81,9 +81,9 @@ public class MilestoneController {
 		return milestoneMapper.milestoneToDto(milestone);
 	}
 	
-	@GetMapping("/spec1/{id}")
-	public MilestoneDto spec1(@PathVariable long id) {
-		Milestone milestone = milestoneService.fromMilestoneByPreviousSectionToMilestone(id);
+	@GetMapping("/getFromMilestone/{toMilestoneId}/toMilestoneId/{transportId}/transportId")
+	public MilestoneDto spec1(@PathVariable long toMilestoneId, @PathVariable long transportId) {
+		Milestone milestone = milestoneService.fromMilestoneByPreviousSectionToMilestone(toMilestoneId, transportId);
 		return milestoneMapper.milestoneToDto(milestone);
 	}
 }
