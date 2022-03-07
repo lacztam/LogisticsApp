@@ -15,7 +15,10 @@ import hu.lacztam.logistic.model.TransportPlan;
 
 @Mapper(componentModel = "spring")
 public interface TransportMapper {
-
+    
+	@Mapping(target = "milestoneDtos", ignore = true)
+	@Mapping(target = "sectionDtos", source = "sections")
+	@Mapping(target = "sectionDtos.transportPlanDto", ignore = true)
 	TransportPlanDto transportToDto(TransportPlan plan);
 	
 	TransportPlan dtoToTransport(TransportPlanDto dto);
